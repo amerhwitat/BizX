@@ -4,12 +4,23 @@ The Java implementation mirrors BizX service boundaries without importing source
 
 ## Layers
 
-1. `core` — runtime identity and health.
-2. `wallet` — provider request boundary for externally controlled wallets.
-3. `catalog` — application/product registration.
-4. `payments` — validated payment lifecycle objects.
-5. `api` — service-facing facade.
-6. `cli` — JVM command-line entry point.
+1. `GameLauncher` — single application/game start point.
+2. `core` — runtime identity and health.
+3. `wallet` — provider request boundary for externally controlled wallets.
+4. `catalog` — application/product registration.
+5. `payments` — validated payment lifecycle objects.
+6. `api` — service-facing facade.
+7. `cli` — JVM command-line utilities.
+
+## Launch flow
+
+`GameLauncher.main()` constructs `BizXApi`, starts the Java application boundary, and reports the runtime health state. This is intentionally a thin entrypoint; business services remain behind the API layer.
+
+```text
+GameLauncher
+    -> BizXApi
+        -> Core / Wallet / Catalog / Payments
+```
 
 ## Integration
 
