@@ -1,0 +1,10 @@
+{
+  "name": "@amerhwitat/bizx",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Node.js implementation of BizX business services and integrations.",
+  "type": "module",
+  "engines": {"node": ">=20"},
+  "scripts": {"start": "node src/index.js", "test": "node --test", "lint": "node --check src/index.js"},
+  "exports": {".": "./src/index.js", "./core": "./src/core/index.js", "./wallet": "./src/wallet/index.js"}
+}
