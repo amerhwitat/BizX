@@ -1,35 +1,27 @@
 # BizX Language Implementations
 
-BizX maintains parallel implementations with matching subsystem boundaries and a consistent single-point application launch contract.
+BizX maintains parallel implementations with matching conceptual subsystem boundaries while keeping source trees independent.
 
 | Language/runtime | Directory | Purpose | Game/application entry |
 |---|---|---|---|
-| Node.js 20+ | `nodejs/` | Server and integration APIs | `src/game/launcher.js` / `npm start` |
-| Java 17+ | `java/` | JVM services and enterprise integration | `io.amerhwitat.bizx.GameLauncher` |
-| Python 3.10+ | `python/` | Automation, tooling and service integration | `python -m bizx` |
+| Native VC++ | `desktop/vcpp/` | Standalone Windows desktop | `BizXDesktop.cpp` / `BizXDesktop.sln` |
+| C# / WPF | `desktop/dotnet/` | Standalone Windows desktop | `BizX.Desktop/MainWindow.xaml` / solution |
+| Node.js | `nodejs/` | Server and integration APIs | `src/game/launcher.js` / `npm start` |
+| Java | `java/` | JVM services and enterprise integration | `io.amerhwitat.bizx.GameLauncher` |
+| Python | `python/` | Automation, tooling and service integration | `python -m bizx` |
 | Browser JavaScript | `javascript/` | Browser-facing implementation | language-native browser entry |
 | TypeScript | `typescript/` | Typed browser/application implementation | language-native application entry |
 
-## Single-point launch contract
+## Desktop targets
 
-Each runtime owns its launcher and delegates into that runtime's native API/core boundary. Launchers must not import source from another programming-language tree. This keeps runtime dependencies explicit while presenting a common conceptual start operation.
+The WPF desktop project multi-targets `net48` and `net6.0-windows`. Modern .NET 6 is not named “.NET Framework 6.0”; Microsoft uses `net6.0` for modern .NET and `net48`/`net481` for .NET Framework.
 
-The currently implemented server/service launchers are:
-
-- Node.js: `nodejs/src/game/launcher.js`, wired to `npm start`.
-- Java: `java/src/main/java/io/amerhwitat/bizx/GameLauncher.java`.
-- Python: `python/bizx/game_launcher.py`, exposed as `python -m bizx` through `python/bizx/__main__.py`.
-
-Browser JavaScript and TypeScript remain runtime-specific and should follow the same contract when their application entrypoints are extended.
+The VC++ desktop project is C++20/MSVC v143, Win32 Unicode, x64, and uses a static runtime for its Release configuration.
 
 ## Separation rule
 
-Each language directory contains only that language's source and its native build/test metadata. Shared architecture, schemas and configuration stay in `docs/` and `configs/`.
+Each language/runtime directory contains only that implementation's source and native build metadata. C++ desktop code is under `desktop/vcpp/`; C# desktop code is under `desktop/dotnet/`. Neither directory imports source files from the other.
 
-## Common boundaries
+## Common conceptual boundaries
 
-The implementations converge on core services, wallet/provider requests, catalog, payment lifecycle, API, and CLI behavior. Runtime-specific integrations remain native to the implementation rather than being copied as foreign-language source.
-
-## Verification
-
-Node.js uses `npm test`; Java uses `mvn test`; Python uses `python -m unittest discover -s tests`. The launcher smoke paths are documented alongside each implementation and in `GAME_ENTRYPOINTS.md`.
+The desktop implementations expose application state, score/XP, save/resume, and Hall of Fame entry points while the existing server, browser and service implementations retain their runtime-specific responsibilities.
