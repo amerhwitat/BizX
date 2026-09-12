@@ -2,6 +2,25 @@
 
 BizX is the core business/application repository for the BizX/BizXtreme platform.
 
+## Source-code citation index
+
+| Area | Source |
+|---|---|
+| Visual C++ desktop | [desktop/vcpp/BizXDesktop.cpp](desktop/vcpp/BizXDesktop.cpp), [BizXDesktop.vcxproj](desktop/vcpp/BizXDesktop.vcxproj), [BizXDesktop.sln](desktop/vcpp/BizXDesktop.sln) |
+| C# WPF desktop | [desktop/dotnet/BizX.Desktop/App.xaml](desktop/dotnet/BizX.Desktop/App.xaml), [App.xaml.cs](desktop/dotnet/BizX.Desktop/App.xaml.cs), [MainWindow.xaml](desktop/dotnet/BizX.Desktop/MainWindow.xaml), [MainWindow.xaml.cs](desktop/dotnet/BizX.Desktop/MainWindow.xaml.cs), [BizX.Desktop.csproj](desktop/dotnet/BizX.Desktop/BizX.Desktop.csproj) |
+| Node.js | [nodejs/](nodejs/) |
+| Java | [java/](java/) |
+| Python | [python/](python/) |
+| JavaScript | [javascript/](javascript/) |
+| TypeScript | [typescript/](typescript/) |
+| Kotlin mobile | [kotlin/mobile/](kotlin/mobile/) |
+| Swift/Apple | [apple/Sources/BizXApple.swift](apple/Sources/BizXApple.swift), [apple/project.yml](apple/project.yml) |
+| Apple automation | [apple/scripts/](apple/scripts/), [apple/fastlane/Fastfile](apple/fastlane/Fastfile) |
+| Chimera integration | [chimera/p2p_protocol.json](chimera/p2p_protocol.json), [chimera_installer_integration.json](chimera_installer_integration.json), [chimera_ui_integration.json](chimera_ui_integration.json) |
+| Aurora integration | [aurora_integration.json](aurora_integration.json) |
+| ISO tool | [ISO-Tool/](ISO-Tool/) |
+| Documentation | [docs/](docs/) |
+
 ## Language-separated architecture
 
 - `desktop/vcpp/` — standalone native Visual C++ Win32 desktop application.
@@ -30,11 +49,7 @@ BizX is the primary business integration target for synchronized IRC-style chann
 
 ## Standalone Windows desktop applications
 
-### Visual C++
-
 Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio. The project is C++20/MSVC v143, x64, Unicode, and uses a static runtime in Release builds.
-
-### C# / WPF
 
 Open `desktop/dotnet/BizX.Desktop.sln`. The WPF project targets both `net48` and `net6.0-windows`.
 
