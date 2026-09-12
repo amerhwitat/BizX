@@ -6,20 +6,22 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 
 | Area | Source |
 |---|---|
-| Visual C++ desktop | [desktop/vcpp/BizXDesktop.cpp](desktop/vcpp/BizXDesktop.cpp), [BizXDesktop.vcxproj](desktop/vcpp/BizXDesktop.vcxproj), [BizXDesktop.sln](desktop/vcpp/BizXDesktop.sln) |
-| C# WPF desktop | [desktop/dotnet/BizX.Desktop/App.xaml](desktop/dotnet/BizX.Desktop/App.xaml), [App.xaml.cs](desktop/dotnet/BizX.Desktop/App.xaml.cs), [MainWindow.xaml](desktop/dotnet/BizX.Desktop/MainWindow.xaml), [MainWindow.xaml.cs](desktop/dotnet/BizX.Desktop/MainWindow.xaml.cs), [BizX.Desktop.csproj](desktop/dotnet/BizX.Desktop/BizX.Desktop.csproj) |
+| Visual C++ desktop | [desktop/vcpp/](desktop/vcpp/) |
+| C# WPF desktop | [desktop/dotnet/](desktop/dotnet/) |
 | Node.js | [nodejs/](nodejs/) |
 | Java | [java/](java/) |
 | Python | [python/](python/) |
 | JavaScript | [javascript/](javascript/) |
 | TypeScript | [typescript/](typescript/) |
 | Kotlin mobile | [kotlin/mobile/](kotlin/mobile/) |
-| Swift/Apple | [apple/Sources/BizXApple.swift](apple/Sources/BizXApple.swift), [apple/project.yml](apple/project.yml) |
-| Apple automation | [apple/scripts/](apple/scripts/), [apple/fastlane/Fastfile](apple/fastlane/Fastfile) |
-| Chimera integration | [chimera/p2p_protocol.json](chimera/p2p_protocol.json), [chimera_installer_integration.json](chimera_installer_integration.json), [chimera_ui_integration.json](chimera_ui_integration.json) |
+| Swift/Apple | [apple/](apple/) |
+| Chimera integration | [chimera/](chimera/) |
 | Aurora integration | [aurora_integration.json](aurora_integration.json) |
 | ISO tool | [ISO-Tool/](ISO-Tool/) |
 | Documentation | [docs/](docs/) |
+| Complete repository source tree | [all tracked source](.) |
+
+Each implementation is kept in its own programming-language/runtime directory and the links above are the README-level citations for the maintained source. Component READMEs provide file-level details.
 
 ## Language-separated architecture
 
@@ -34,8 +36,6 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 - `apple/` — iOS/iPadOS and macOS SwiftUI/Xcode source boundary.
 - `docs/` — language-neutral specifications and architecture.
 - `configs/` — language-neutral configuration/schema material.
-
-Each implementation is kept in its own programming-language/runtime directory.
 
 ## Mobile communications
 
