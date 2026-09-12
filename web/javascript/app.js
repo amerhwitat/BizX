@@ -1,0 +1,1 @@
+let score=0;const out=document.querySelector('#score');document.querySelector('#play').addEventListener('click',()=>{score+=10;out.textContent=`Score: ${score}`});
