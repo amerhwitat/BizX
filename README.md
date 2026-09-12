@@ -26,7 +26,7 @@ BizX is the primary business integration target for synchronized IRC-style chann
 
 ## Apple applications
 
-`apple/project.yml` is an XcodeGen specification for iOS and macOS application targets. `apple/Sources/` contains the SwiftUI entry point and application boundary. On macOS, install Xcode and XcodeGen, run `xcodegen generate`, then use `apple/scripts/build-ios.sh`, `archive-ios.sh`, and `export-ipa.sh`. Signing material is supplied outside Git.
+`apple/project.yml` is an XcodeGen specification for iOS and macOS application targets. `apple/Sources/` contains the SwiftUI entry point and application boundary. The complete centralized Objective-C and Flutter companion is maintained in [`general/Apple-Implementations/BizX`](https://github.com/amerhwitat/general/tree/master/Apple-Implementations/BizX). Flutter's Objective-C platform-channel path and Xcode integration are supported upstream. On macOS, install Xcode/XcodeGen, generate the project, then build/archive/export. Signing material is supplied outside Git.
 
 ## Standalone Windows desktop applications
 
