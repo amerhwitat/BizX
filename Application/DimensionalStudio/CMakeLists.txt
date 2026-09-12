@@ -7,11 +7,18 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(ds_core STATIC
   core/geometry/nurbs/NurbsCurve.cpp
 )
-target_include_directories(ds_core PUBLIC core/include)
+target_include_directories(ds_core PUBLIC
+  core/include
+  core/color
+)
 
 add_executable(ds_smoke tools/smoke.cpp)
 target_link_libraries(ds_smoke PRIVATE ds_core)
-target_include_directories(ds_smoke PRIVATE core/include)
+
+target_include_directories(ds_smoke PRIVATE
+  core/include
+  core/color
+)
 
 option(DS_BUILD_OPENGL "Build native OpenGL viewer" OFF)
 if(DS_BUILD_OPENGL)
