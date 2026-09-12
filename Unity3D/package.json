@@ -1,0 +1,8 @@
+{
+  "name": "com.amerhwitat.bizx",
+  "version": "1.0.0",
+  "displayName": "BizX 3D Integration",
+  "description": "BizX runtime/editor integration for Unity 6 and compatible LTS releases.",
+  "unity": "6000.0",
+  "author": { "name": "Amer Hwitat / BizX" }
+}
