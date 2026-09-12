@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bizx.example/schema/d4s-1.0.json",
+  "title": "Dimensional Studio Scene",
+  "type": "object",
+  "required": ["format", "version", "scene"],
+  "properties": {
+    "format": {"const": "d4s"},
+    "version": {"type": "string", "const": "1.0"},
+    "scene": {
+      "type": "object",
+      "required": ["objects"],
+      "properties": {
+        "time": {"type": "number"},
+        "duration": {"type": "number", "minimum": 0},
+        "objects": {"type": "array", "items": {"$ref": "#/$defs/object"}},
+        "dimensions": {"$ref": "#/$defs/tensor128"}
+      }
+    }
+  },
+  "$defs": {
+    "vec3": {"type": "array", "prefixItems": [{"type":"number"},{"type":"number"},{"type":"number"}], "minItems": 3, "maxItems": 3},
+    "vec4": {"type": "array", "prefixItems": [{"type":"number"},{"type":"number"},{"type":"number"},{"type":"number"}], "minItems": 4, "maxItems": 4},
+    "tensor128": {"type": "array", "minItems": 128, "maxItems": 128, "items": {"type": "number"}},
+    "object": {
+      "type": "object",
+      "required": ["id", "name", "position", "rotation", "scale"],
+      "properties": {
+        "id": {"type":"string"},
+        "name": {"type":"string"},
+        "position": {"$ref":"#/$defs/vec3"},
+        "rotation": {"$ref":"#/$defs/vec4"},
+        "scale": {"$ref":"#/$defs/vec3"},
+        "geometry": {"type":"object"},
+        "material": {"type":"object"},
+        "tensor128": {"$ref":"#/$defs/tensor128"},
+        "samples": {"type":"array"}
+      }
+    }
+  }
+}
