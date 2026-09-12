@@ -16,10 +16,15 @@ Bots consume public state and their own private information. Difficulty changes 
 Clients send intents; the authoritative host/server resolves them. Sequence numbers prevent duplicate actions. Reconnect from snapshots.
 
 ## Module 6 — Art and UI
-Use the repository's original vector card renderer and asset manifest. Keep art independent of rules so every language can share the same visual specification.
+The preferred deck is the license-verified OpenDecks Public Domain / CC0 deck. Fetch it with the platform script under `mobile/flutter/scripts/`, preserve its license/readme, and keep the fallback renderer available. Art remains independent of rules so every language can share the same asset manifest.
 
 ## Module 7 — QA
-Test deterministic seeds, legal moves, scoring, serialization, replay, reconnect, malformed packets, and private-information boundaries.
+Test deterministic seeds, legal moves, scoring, serialization, replay, reconnect, malformed packets, and private-information boundaries. Also test both the downloaded-art and missing-art fallback paths.
 
 ## Module 8 — Release
-Run the language-specific build scripts, validate dependency licenses, generate release manifests, and publish only assets whose licenses permit redistribution.
+Run the language-specific build scripts, validate dependency and asset licenses, generate release manifests, and publish only assets whose licenses permit redistribution.
+
+## Asset references
+- OpenDecks CC0 deck: https://github.com/AustinGabriel/OpenDecks-Public-Domain-and-CC0-Playing-Cards
+- Kenney Playing Cards Pack: https://kenney.nl/assets/playing-cards-pack
+- OpenGameArt Cards: https://opengameart.org/content/cards-0
