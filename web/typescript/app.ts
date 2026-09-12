@@ -1,0 +1,1 @@
+export interface GameState{score:number;xp:number}export const nextTurn=(s:GameState):GameState=>({score:s.score+10,xp:s.xp+1});
