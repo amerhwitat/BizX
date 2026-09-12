@@ -16,19 +16,54 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 
 Each implementation is kept in its own programming-language/runtime directory. The native C++ and C# desktop implementations do not share source files with one another or with the other runtimes.
 
-## Standalone Windows desktop applications
+## Build and run
+
+### Windows / all detected targets
+
+```bat
+build-tools\build.bat
+```
+
+PowerShell:
+
+```powershell
+.\build-tools\build.ps1
+```
 
 ### Visual C++
 
-Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio. The project is C++20/MSVC v143, x64, Unicode, and uses a static runtime in Release builds. The application has its own game state, score/XP dashboard, save/resume, and Hall of Fame entry point.
+Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio, or use the repository MSVC build script. The project is C++20/MSVC v143, x64 and Unicode.
 
 ### C# / WPF
 
-Open `desktop/dotnet/BizX.Desktop.sln`. The WPF project targets both `net48` and `net6.0-windows`. The .NET 6 target is configured for x64 self-contained single-file publishing.
+```powershell
+dotnet build desktop\dotnet\BizX.Desktop.sln -c Release
+```
 
-> Terminology: modern .NET 6 uses `net6.0`; .NET Framework uses TFMs such as `net48`. “.NET Framework 6.0” is not a Microsoft target framework.
+### Node.js
 
-See [`docs/DESKTOP_CPP_AND_DOTNET.md`](docs/DESKTOP_CPP_AND_DOTNET.md).
+```bash
+cd nodejs
+npm ci
+npm test
+node src/game/launcher.js
+```
+
+### Java
+
+```bash
+cd java
+mvn test
+```
+
+### Python
+
+```bash
+python -m pip install -r python/requirements.txt
+python python/bizx/game_launcher.py
+```
+
+If a Python executable is desired, use the repository PyInstaller builder; packaging is performed on the target operating system.
 
 ## Existing runtime entry points
 
