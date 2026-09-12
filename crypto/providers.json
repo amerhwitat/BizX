@@ -1,0 +1,11 @@
+{
+  "wallet": [
+    {"name":"Tether WDK","role":"self-custodial multi-chain wallet SDK","source":"https://wdk.tether.io/"},
+    {"name":"WalletConnect","role":"external wallet connection/specifications","source":"https://github.com/WalletConnect/walletconnect-specs"},
+    {"name":"Wallet Standard","role":"wallet interoperability conventions","source":"https://github.com/wallet-standard/wallet-standard"}
+  ],
+  "swap": [
+    {"name":"Uniswap Smart Order Router","role":"EVM swap routing research/adapter","source":"https://github.com/Uniswap/smart-order-router"}
+  ],
+  "policy": "Provider credentials, API keys and private keys are never committed. Live transactions require explicit user confirmation."
+}
