@@ -13,17 +13,8 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 - `typescript/` — TypeScript implementation.
 - `docs/` — language-neutral specifications and architecture.
 - `configs/` — language-neutral configuration/schema material.
-- `chimera/` — shared 128D/P2P interoperability contracts.
 
 Each implementation is kept in its own programming-language/runtime directory. The native C++ and C# desktop implementations do not share source files with one another or with the other runtimes.
-
-## Chimera multidimensional integration
-
-BizX adopts the Chimera multidimensional model as an application-state abstraction. The canonical state envelope represents geometry, time, observer/perspective, light/material response, events, objects, properties, interactions, and higher cognitive/vector state. Implementations may extend the 128D model without changing the base wire format.
-
-## Peer-to-peer integration
-
-`chimera/p2p_protocol.json` defines the common interoperability contract: authenticated peer identity, capability exchange, request/response and publish/subscribe messages, sequence numbers, replay protection, content-addressed state synchronization, and local-first operation. Discovery is restricted to configured/bootstrap peers; applications do not perform arbitrary Internet scanning.
 
 ## Standalone Windows desktop applications
 
@@ -51,8 +42,14 @@ See [`docs/DESKTOP_CPP_AND_DOTNET.md`](docs/DESKTOP_CPP_AND_DOTNET.md).
 | Browser JavaScript | `javascript/` |
 | TypeScript | `typescript/` |
 
-## License
+## Chimera 128D + authenticated P2P
 
-Released under the GNU General Public License v3 or later. Existing third-party components retain their original licenses; see their notices.
+BizX now participates in the common Chimera multidimensional application fabric. Application/world state can be represented through the 128D baseline: geometry, temporal state, observer/perspective, light/material response, events, objects, properties and interaction rules, plus an extensible perception/cognition overlay.
 
-The desktop applications are standalone Windows implementations; the other runtimes remain available independently.
+The optional P2P layer is authenticated and opt-in. It supports capability exchange, request/response, pub/sub, snapshot/delta synchronization, content-addressed state, sequence numbers and payload integrity. The protocol does not perform unsolicited network scanning, credential exchange, arbitrary executable transfer or remote command execution.
+
+All language implementations should serialize the same logical state envelope while using native networking facilities. See [`docs/CHIMERA_128D_P2P_INTEGRATION.md`](docs/CHIMERA_128D_P2P_INTEGRATION.md).
+
+## Licensing
+
+New and modified BizX code is intended for GNU GPL v3 or later. Third-party components retain their own licenses. See the repository `LICENSE` file and the GNU GPLv3 terms.
