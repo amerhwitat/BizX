@@ -1,0 +1,1 @@
+<?php declare(strict_types=1); header('Content-Type: application/json'); echo json_encode(['game'=>'BizX','implementation'=>'PHP standalone','version'=>1]);
