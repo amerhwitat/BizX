@@ -1,0 +1,11 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "BizX Unreal 5 Integration",
+  "Description": "C++ integration layer for BizX world/state data and portable 3D assets.",
+  "Category": "BizX",
+  "Modules": [
+    { "Name": "BizXUnreal", "Type": "Runtime", "LoadingPhase": "Default" }
+  ]
+}
