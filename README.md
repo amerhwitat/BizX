@@ -11,45 +11,38 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 - `python/` — Python implementation.
 - `javascript/` — browser JavaScript implementation.
 - `typescript/` — TypeScript implementation.
+- `kotlin/mobile/` — Android Kotlin mobile application.
 - `docs/` — language-neutral specifications and architecture.
 - `configs/` — language-neutral configuration/schema material.
 
-Each implementation is kept in its own programming-language/runtime directory. The native C++ and C# desktop implementations do not share source files with one another or with the other runtimes.
+Each implementation is kept in its own programming-language/runtime directory.
+
+## Mobile communications
+
+BizX Mobile now includes synchronized text-conversation state plus microphone, speaker and camera capability detection. The media boundary is WebRTC and the chat synchronization contract uses conversation ID, sender ID, monotonic sequence and SHA-256 payload integrity. Runtime microphone/camera permissions are requested only when the user invokes the relevant feature. See [`kotlin/mobile/COMMUNICATIONS.md`](kotlin/mobile/COMMUNICATIONS.md).
+
+BizX is the primary business integration target for synchronized IRC-style channels, presence, voice sessions and video sessions shared with BizXtreme and the authenticated Chimera P2P fabric.
 
 ## Standalone Windows desktop applications
 
 ### Visual C++
 
-Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio. The project is C++20/MSVC v143, x64, Unicode, and uses a static runtime in Release builds. The application has its own game state, score/XP dashboard, save/resume, and Hall of Fame entry point.
+Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio. The project is C++20/MSVC v143, x64, Unicode, and uses a static runtime in Release builds.
 
 ### C# / WPF
 
-Open `desktop/dotnet/BizX.Desktop.sln`. The WPF project targets both `net48` and `net6.0-windows`. The .NET 6 target is configured for x64 self-contained single-file publishing.
-
-> Terminology: modern .NET 6 uses `net6.0`; .NET Framework uses TFMs such as `net48`. “.NET Framework 6.0” is not a Microsoft target framework.
+Open `desktop/dotnet/BizX.Desktop.sln`. The WPF project targets both `net48` and `net6.0-windows`.
 
 See [`docs/DESKTOP_CPP_AND_DOTNET.md`](docs/DESKTOP_CPP_AND_DOTNET.md).
 
-## Existing runtime entry points
-
-| Runtime | Entry point |
-|---|---|
-| VC++ desktop | `desktop/vcpp/BizXDesktop.cpp` |
-| C# desktop | `desktop/dotnet/BizX.Desktop/MainWindow.xaml` |
-| Node.js | `nodejs/src/game/launcher.js` |
-| Java | `java/src/main/java/io/amerhwitat/bizx/GameLauncher.java` |
-| Python | `python/bizx/game_launcher.py` / `python/bizx/__main__.py` |
-| Browser JavaScript | `javascript/` |
-| TypeScript | `typescript/` |
-
 ## Chimera 128D + authenticated P2P
 
-BizX now participates in the common Chimera multidimensional application fabric. Application/world state can be represented through the 128D baseline: geometry, temporal state, observer/perspective, light/material response, events, objects, properties and interaction rules, plus an extensible perception/cognition overlay.
+BizX participates in the common Chimera multidimensional application fabric. Application/world state can be represented through the 128D baseline. The optional P2P layer is authenticated and opt-in; it supports capability exchange, request/response, pub/sub, snapshot/delta synchronization, content-addressed state, sequence numbers and payload integrity. It excludes unsolicited scanning, credential exchange, arbitrary executable transfer and remote command execution.
 
-The optional P2P layer is authenticated and opt-in. It supports capability exchange, request/response, pub/sub, snapshot/delta synchronization, content-addressed state, sequence numbers and payload integrity. The protocol does not perform unsolicited network scanning, credential exchange, arbitrary executable transfer or remote command execution.
+## Mobile build
 
-All language implementations should serialize the same logical state envelope while using native networking facilities. See [`docs/CHIMERA_128D_P2P_INTEGRATION.md`](docs/CHIMERA_128D_P2P_INTEGRATION.md).
+Use the portfolio automation under `ChimeraIIOS/tools/mobile/` to provision the Android SDK and build debug/release APKs for the related repositories.
 
 ## Licensing
 
-New and modified BizX code is intended for GNU GPL v3 or later. Third-party components retain their own licenses. See the repository `LICENSE` file and the GNU GPLv3 terms.
+New and modified BizX code is intended for GNU GPL v3 or later. Third-party components retain their own licenses.
