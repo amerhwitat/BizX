@@ -13,8 +13,17 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 - `typescript/` — TypeScript implementation.
 - `docs/` — language-neutral specifications and architecture.
 - `configs/` — language-neutral configuration/schema material.
+- `chimera/` — shared 128D/P2P interoperability contracts.
 
 Each implementation is kept in its own programming-language/runtime directory. The native C++ and C# desktop implementations do not share source files with one another or with the other runtimes.
+
+## Chimera multidimensional integration
+
+BizX adopts the Chimera multidimensional model as an application-state abstraction. The canonical state envelope represents geometry, time, observer/perspective, light/material response, events, objects, properties, interactions, and higher cognitive/vector state. Implementations may extend the 128D model without changing the base wire format.
+
+## Peer-to-peer integration
+
+`chimera/p2p_protocol.json` defines the common interoperability contract: authenticated peer identity, capability exchange, request/response and publish/subscribe messages, sequence numbers, replay protection, content-addressed state synchronization, and local-first operation. Discovery is restricted to configured/bootstrap peers; applications do not perform arbitrary Internet scanning.
 
 ## Standalone Windows desktop applications
 
@@ -41,5 +50,9 @@ See [`docs/DESKTOP_CPP_AND_DOTNET.md`](docs/DESKTOP_CPP_AND_DOTNET.md).
 | Python | `python/bizx/game_launcher.py` / `python/bizx/__main__.py` |
 | Browser JavaScript | `javascript/` |
 | TypeScript | `typescript/` |
+
+## License
+
+Released under the GNU General Public License v3 or later. Existing third-party components retain their original licenses; see their notices.
 
 The desktop applications are standalone Windows implementations; the other runtimes remain available independently.
