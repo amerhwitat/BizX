@@ -11,6 +11,9 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 | Unreal Engine 5 C++ | [Unreal5/BizXUnreal/](Unreal5/BizXUnreal/) |
 | Unity 3D package/data | [Unity3D/](Unity3D/) |
 | Portable 3D assets | [3D/assets/](3D/assets/) |
+| Rendering architecture | [rendering/](rendering/) |
+| Multi-chain crypto | [crypto/](crypto/) |
+| Game/store/storyboards | [game-store/](game-store/) |
 | Node.js | [nodejs/](nodejs/) |
 | Java | [java/](java/) |
 | Python | [python/](python/) |
@@ -23,42 +26,46 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 | ISO tool | [ISO-Tool/](ISO-Tool/) |
 | Documentation | [docs/](docs/) |
 
-Each implementation is kept in its own programming-language/runtime directory and component READMEs provide file-level details.
-
 ## Language-separated architecture
 
 - `desktop/vcpp/` — standalone native Visual C++ Win32 desktop application.
 - `desktop/dotnet/` — standalone C# WPF desktop application.
 - `Unreal5/BizXUnreal/` — native C++ Unreal Engine 5 runtime plugin boundary.
 - `Unity3D/` — Unity-compatible C# data boundary and local UPM package manifest.
+- `rendering/` — renderer capability and adapter architecture for realtime engines.
+- `crypto/` — chain-agnostic wallet/asset/transaction boundary.
+- `game-store/` — license-aware 2D/3D/4D storyboard and game-asset catalog.
 - `3D/assets/` — source-controlled, engine-neutral demonstration geometry.
 - `nodejs/`, `java/`, `python/`, `javascript/`, `typescript/` — language-separated implementations.
 - `docs/` — language-neutral specifications and architecture.
 
 ## Unreal Engine 5 / Unity 3D
 
-BizX now provides a native Unreal 5 C++ plugin under `Unreal5/BizXUnreal/`. Install it under a project's `Plugins/` directory, regenerate project files and build with the matching Unreal toolchain. The plugin exposes `UBizXWorldData` and `FBizXWorldObject` for Blueprint/C++ world-state integration.
+BizX provides a native Unreal 5 C++ plugin under `Unreal5/BizXUnreal/` and portable Unity data under `Unity3D/`.
 
-The Unity boundary is under `Unity3D/`. It contains a UPM `package.json` and C# world-object model. Portable geometry is under `3D/assets/`. The same OBJ assets can be imported into supported DCC/engine workflows. Unreal's official documentation covers FBX, glTF and Datasmith import workflows; Unity documents UPM and `AssetPostprocessor` import hooks.
+## Realtime rendering and open assets
 
-See [`docs/UNREAL5_AND_UNITY3D.md`](docs/UNREAL5_AND_UNITY3D.md).
+`rendering/` describes realtime adapters for Unreal Engine 5, Godot 4, OGRE, Bevy, bgfx, Filament and Three.js, with capability negotiation for PBR, HDR/IBL, lights, shadows and common 2D/3D formats. `game-store/` adds license-aware discovery of free/low-price 2D, 3D and 4D storyboard content. Publicly reachable material is not assumed reusable; importers must preserve source, license, attribution and SHA-256 metadata.
 
-## Mobile communications
+## Multi-chain crypto
 
-BizX Mobile includes synchronized text-conversation state plus microphone, speaker and camera capability detection. The media boundary is WebRTC and chat synchronization uses conversation ID, sender ID, monotonic sequence and SHA-256 payload integrity.
+`crypto/` adds an extensible self-custody-first boundary for Bitcoin/UTXO, EVM, Solana, TON and additional chains through adapters. It covers balance discovery, receive addresses, send intents, buy/sell provider intents, swap/exchange quote intents and sweep planning. Live signing is explicitly separated from the game/runtime layer and requires user-controlled confirmation.
 
-## Chimera 128D + authenticated P2P
-
-BizX participates in the common Chimera multidimensional application fabric. The optional P2P layer is authenticated and opt-in; it supports capability exchange, request/response, pub/sub, snapshot/delta synchronization, content-addressed state, sequence numbers and payload integrity.
+The design is informed by public work such as Tether WDK, Wallet Standard/WalletConnect specifications and Uniswap Smart Order Router; no third-party implementation is vendored merely because it is public.
 
 ## Licensing
 
-New and modified BizX code is intended for GNU GPL v3 or later. Third-party components and engine SDKs retain their own licenses.
+New and modified BizX code is intended for GNU GPL v3 or later. Third-party components, assets, exchange providers and engine SDKs retain their own licenses.
 
 ## External documentation citations
 
 - Epic Games, Unreal Engine FBX Content Pipeline: https://dev.epicgames.com/documentation/en-us/unreal-engine/fbx-content-pipeline
 - Epic Games, Datasmith Import: https://dev.epicgames.com/documentation/en-us/unreal-engine/importing-datasmith-content-into-unreal-engine
-- Epic Games, Datasmith supported formats: https://dev.epicgames.com/documentation/en-us/unreal-engine/datasmith-supported-software-and-file-types
-- Unity, Asset Store package formats: https://docs.unity.com/en-us/asset-store/publishing/introduction
 - Unity, AssetPostprocessor: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AssetPostprocessor.html
+- Tether WDK: https://wdk.tether.io/
+- WalletConnect Specifications: https://github.com/WalletConnect/walletconnect-specs
+- Wallet Standard: https://github.com/wallet-standard/wallet-standard
+- Uniswap Smart Order Router: https://github.com/Uniswap/smart-order-router
+- OpenGameArt: https://opengameart.org/
+- Poly Haven license: https://polyhaven.com/license
+- Poly Haven API: https://api.polyhaven.com/
