@@ -12,6 +12,7 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 - `javascript/` — browser JavaScript implementation.
 - `typescript/` — TypeScript implementation.
 - `kotlin/mobile/` — Android Kotlin mobile application.
+- `apple/` — iOS/iPadOS and macOS SwiftUI/Xcode source boundary.
 - `docs/` — language-neutral specifications and architecture.
 - `configs/` — language-neutral configuration/schema material.
 
@@ -19,9 +20,13 @@ Each implementation is kept in its own programming-language/runtime directory.
 
 ## Mobile communications
 
-BizX Mobile now includes synchronized text-conversation state plus microphone, speaker and camera capability detection. The media boundary is WebRTC and the chat synchronization contract uses conversation ID, sender ID, monotonic sequence and SHA-256 payload integrity. Runtime microphone/camera permissions are requested only when the user invokes the relevant feature. See [`kotlin/mobile/COMMUNICATIONS.md`](kotlin/mobile/COMMUNICATIONS.md).
+BizX Mobile includes synchronized text-conversation state plus microphone, speaker and camera capability detection. The media boundary is WebRTC and chat synchronization uses conversation ID, sender ID, monotonic sequence and SHA-256 payload integrity. Runtime microphone/camera permissions are requested only when the user invokes the relevant feature. See `kotlin/mobile/COMMUNICATIONS.md`.
 
 BizX is the primary business integration target for synchronized IRC-style channels, presence, voice sessions and video sessions shared with BizXtreme and the authenticated Chimera P2P fabric.
+
+## Apple applications
+
+`apple/project.yml` is an XcodeGen specification for iOS and macOS application targets. `apple/Sources/` contains the SwiftUI entry point and application boundary. On macOS, install Xcode and XcodeGen, run `xcodegen generate`, then use `apple/scripts/build-ios.sh`, `archive-ios.sh`, and `export-ipa.sh`. Signing material is supplied outside Git.
 
 ## Standalone Windows desktop applications
 
@@ -33,7 +38,7 @@ Open `desktop/vcpp/BizXDesktop.sln` in Visual Studio. The project is C++20/MSVC 
 
 Open `desktop/dotnet/BizX.Desktop.sln`. The WPF project targets both `net48` and `net6.0-windows`.
 
-See [`docs/DESKTOP_CPP_AND_DOTNET.md`](docs/DESKTOP_CPP_AND_DOTNET.md).
+See `docs/DESKTOP_CPP_AND_DOTNET.md`.
 
 ## Chimera 128D + authenticated P2P
 
