@@ -14,54 +14,42 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 | Rendering architecture | [rendering/](rendering/) |
 | Multi-chain crypto | [crypto/](crypto/) |
 | Game/store/storyboards | [game-store/](game-store/) |
+| Mobile Kotlin | [mobile/kotlin/](mobile/kotlin/) |
+| Mobile Flutter | [mobile/flutter/](mobile/flutter/) |
+| P2P/presence policy | [network/](network/) |
 | Node.js | [nodejs/](nodejs/) |
 | Java | [java/](java/) |
 | Python | [python/](python/) |
 | JavaScript | [javascript/](javascript/) |
 | TypeScript | [typescript/](typescript/) |
-| Kotlin mobile | [kotlin/mobile/](kotlin/mobile/) |
-| Swift/Apple | [apple/](apple/) |
-| Chimera integration | [chimera/](chimera/) |
-| Aurora integration | [aurora_integration.json](aurora_integration.json) |
-| ISO tool | [ISO-Tool/](ISO-Tool/) |
+| Apple/Swift | [apple/](apple/) |
 | Documentation | [docs/](docs/) |
 
-## Language-separated architecture
+## Mobile game hub
 
-- `desktop/vcpp/` — standalone native Visual C++ Win32 desktop application.
-- `desktop/dotnet/` — standalone C# WPF desktop application.
-- `Unreal5/BizXUnreal/` — native C++ Unreal Engine 5 runtime plugin boundary.
-- `Unity3D/` — Unity-compatible C# data boundary and local UPM package manifest.
-- `rendering/` — renderer capability and adapter architecture for realtime engines.
-- `crypto/` — chain-agnostic wallet/asset/transaction boundary.
-- `game-store/` — license-aware 2D/3D/4D storyboard and game-asset catalog.
-- `3D/assets/` — source-controlled, engine-neutral demonstration geometry.
-- `nodejs/`, `java/`, `python/`, `javascript/`, `typescript/` — language-separated implementations.
-- `docs/` — language-neutral specifications and architecture.
+`mobile/kotlin/` provides a Kotlin Multiplatform boundary for shared Android/iOS logic. `mobile/flutter/` provides a Flutter/Flame multiplatform game shell. The starting menu covers 2D storyboard games, 3D worlds, 4D time-indexed worlds, wallet setup, backup/snapshot workflows, saves, high scores and peer presence.
 
-## Unreal Engine 5 / Unity 3D
+Flutter's official Games Toolkit provides open-source multiplatform 2D game templates and Flame provides a modular Flutter game engine for mobile, desktop and web. Kotlin Multiplatform supports shared Android/iOS code and Compose Multiplatform UI.
 
-BizX provides a native Unreal 5 C++ plugin under `Unreal5/BizXUnreal/` and portable Unity data under `Unity3D/`.
+## Saves, backups and wallets
 
-## Realtime rendering and open assets
+Game saves and snapshots are separated from wallet secrets. Recovery phrases/private keys must remain in platform secure storage or a user-controlled wallet provider and never enter logs, screenshots, save files, telemetry or P2P traffic. Backup manifests contain metadata/references rather than secret material.
 
-`rendering/` describes realtime adapters for Unreal Engine 5, Godot 4, OGRE, Bevy, bgfx, Filament and Three.js, with capability negotiation for PBR, HDR/IBL, lights, shadows and common 2D/3D formats. `game-store/` adds license-aware discovery of free/low-price 2D, 3D and 4D storyboard content. Publicly reachable material is not assumed reusable; importers must preserve source, license, attribution and SHA-256 metadata.
+## P2P and presence
 
-## Multi-chain crypto
+`network/PeerPresencePolicy.md` defines consent-based peer presence. The game may show connected/disconnected state and a random peer ID during runtime. It must not expose or persist raw IP addresses to other players and must not infer exact location from IP. A player may optionally publish a coarse self-selected region.
 
-`crypto/` adds an extensible self-custody-first boundary for Bitcoin/UTXO, EVM, Solana, TON and additional chains through adapters. It covers balance discovery, receive addresses, send intents, buy/sell provider intents, swap/exchange quote intents and sweep planning. Live signing is explicitly separated from the game/runtime layer and requires user-controlled confirmation.
+## Open storyboard/game resources
 
-The design is informed by public work such as Tether WDK, Wallet Standard/WalletConnect specifications and Uniswap Smart Order Router; no third-party implementation is vendored merely because it is public.
-
-## Licensing
-
-New and modified BizX code is intended for GNU GPL v3 or later. Third-party components, assets, exchange providers and engine SDKs retain their own licenses.
+`game-store/storyboards/` contains license-gated templates. Public availability does not imply reuse rights. Each imported asset must retain source URL, asset ID, license, attribution and integrity metadata. Do not bulk-scrape or redistribute copyrighted material.
 
 ## External documentation citations
 
-- Epic Games, Unreal Engine FBX Content Pipeline: https://dev.epicgames.com/documentation/en-us/unreal-engine/fbx-content-pipeline
-- Epic Games, Datasmith Import: https://dev.epicgames.com/documentation/en-us/unreal-engine/importing-datasmith-content-into-unreal-engine
-- Unity, AssetPostprocessor: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/AssetPostprocessor.html
+- Flutter Games: https://flutter.dev/games
+- Flutter Games Toolkit: https://docs.flutter.dev/resources/games-toolkit
+- Flame: https://github.com/flame-engine/flame
+- Kotlin Multiplatform: https://kotlinlang.org/docs/multiplatform.html
+- Android Kotlin Multiplatform: https://developer.android.com/kotlin/multiplatform
 - Tether WDK: https://wdk.tether.io/
 - WalletConnect Specifications: https://github.com/WalletConnect/walletconnect-specs
 - Wallet Standard: https://github.com/wallet-standard/wallet-standard
