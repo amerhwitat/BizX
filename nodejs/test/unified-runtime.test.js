@@ -13,7 +13,7 @@ test('crypto creates non-custodial transaction intents', () => {
   const intent = runtime.crypto.createTransactionIntent({ chain: 'evm', asset: 'ETH', to: '0xexample', amount: '1', mode: 'testnet' });
   assert.equal(intent.signed, false);
   assert.equal(intent.mode, 'testnet');
-  assert.equal(runtime.crypto.hash('BizX'), 'b4c3c5b6f5f2f8d0f0f1fce2d6e2b7d2c6c4a2a9b9a6c7f0d2b5c6e7a8f9b0c1');
+  assert.equal(runtime.crypto.hash('BizX'), '516c25f3b26ce33468fee54d03b9d083587a47d186de78210cb179cc98a1f93a');
 });
 
 test('3D projection is deterministic', () => {
