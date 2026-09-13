@@ -1,17 +1,10 @@
-"""Single Python entry point for starting BizX and Tycoon mode."""
+"""Backward-compatible launcher delegating to the unified BizX Python runtime."""
 
-from .api import BizXApi
-from .game.tycoon import TycoonGame
+from .unified import BizXRuntime
 
 
 def main(mode: str = "default") -> int:
-    api = BizXApi()
-    print("BizX game starting")
-    print(api.health())
-    if mode.lower() == "tycoon":
-        game = TycoonGame(cash=10_000)
-        print(f"BizX Tycoon ready: cash={game.cash}")
-    return 0
+    return BizXRuntime().start(mode)
 
 
 if __name__ == "__main__":
