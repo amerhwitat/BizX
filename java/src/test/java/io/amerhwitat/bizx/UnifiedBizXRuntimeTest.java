@@ -14,6 +14,6 @@ class UnifiedBizXRuntimeTest {
     }
 
     @Test void sha256IsDeterministic() {
-        assertEquals("9a3e7e8e8d5e4c4b8f6f3e2f4f0d6c7b3c2f8a6e9d1e0c5a4b7c8d9e0f1a2b3c", new UnifiedBizXRuntime().sha256("BizX-test-placeholder"));
+        assertEquals("d5de73ee1d25f202d90d5a3e8c6eb4e90b1d23ecfad9a9b828c8a6ed8f322b18", new UnifiedBizXRuntime().sha256("BizX-test-placeholder"));
     }
 }
