@@ -1,44 +1,52 @@
-# BizX Node.js
+# BizX Node.js / JavaScript
 
-Node.js implementation of the BizX core and integration boundary.
+Unified Node.js implementation of the BizX application contracts. The `src/unified` runtime brings the requested game, NetworkUnified, UnifiedGame launcher, InternetScanner, AssetBrowser, crypto, web, 3D, game-assets, game-store, network, rendering and scripts capabilities into one JavaScript runtime while preserving the original feature-specific implementations elsewhere in the repository.
 
 ## Requirements
 - Node.js 20+
 
-## Single-point game entry
+Node.js supports stable ECMAScript modules and provides standard cryptographic, HTTP/HTTPS, networking and Web APIs; BizX uses those platform primitives rather than implementing cryptographic primitives from scratch. citeturn0search0turn0search2turn0search3
 
-The canonical Node.js launcher is `src/game/launcher.js`. `npm start` delegates directly to this launcher, so the game/application can be started from one runtime-specific command.
+## One application entry point
 
 ```bash
 cd nodejs
 npm start
 ```
 
-The launcher also accepts an optional mode argument:
+The canonical launcher is `src/unified/launcher.js`.
+
+Useful commands:
 
 ```bash
-npm start -- arcade
+npm run health
+npm run manifest
+npm test
+npm run lint
 ```
 
-Programmatic consumers can import the same entry boundary:
+## Public API
 
 ```js
-import { startGame } from '@amerhwitat/bizx/game';
+import { createUnifiedBizX, Vector3, PerspectiveCamera } from '@amerhwitat/bizx';
 
-const result = startGame({ mode: 'default' });
+const app = createUnifiedBizX();
+console.log(app.health());
 ```
 
-## Test
+## Integrated areas
 
-```bash
-npm test
-```
+- Game and game launcher
+- NetworkUnified and network services
+- UnifiedGame launcher boundary
+- InternetScanner with explicit authorization
+- AssetBrowser with HTTPS-only metadata access
+- Crypto and non-custodial transaction intents
+- Web/API route contracts
+- 3D vectors and perspective projection
+- Game asset catalog
+- Game store/catalog
+- Rendering capability model
+- Build/test/runtime script registry
 
-## Layout
-- `src/core` — language-native BizX core
-- `src/wallet` — provider abstraction
-- `src/game/launcher.js` — single-point game/application entry
-- `src/index.js` — public API
-- `test` — Node.js tests
-
-The Node.js tree is intentionally isolated from other programming-language implementations. Browser JavaScript/TypeScript and native implementations belong in their respective language directories. See `../docs/GAME_ENTRYPOINTS.md` for the cross-language launcher contract.
+See `docs/FEATURE_CONVERSION_MAP.md` for the source-to-JavaScript conversion map.
