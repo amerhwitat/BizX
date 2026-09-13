@@ -8,19 +8,43 @@ EmailSender is a repository-validation outreach assistant for BizX. It researche
 - **Display name:** `Amer Hwitat`
 - **Message header:** `Games, OS, and Other topics`
 
-Proton documents SMTP submission for supported applications using `smtp.protonmail.ch`, port `587`, STARTTLS, and a dedicated SMTP token rather than the normal mailbox password. Keep that token outside Git and inject it through the runtime environment. Official documentation: https://proton.me/support/smtp-submission
+Proton documents SMTP submission for supported applications using `smtp.protonmail.ch`, port `587`, STARTTLS, and a dedicated SMTP token rather than the normal mailbox password. Keep that token outside Git and inject it through the runtime environment.
 
-## Important sending policy
+## Sending and privacy modes
 
-EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender must have permission to send.
+EmailSender supports two legitimate transport modes:
 
-## Message header
+1. **Direct authenticated submission** — such as the configured Proton SMTP transport.
+2. **Authenticated relay / authorized alias** — a user-configured relay can be selected through environment-backed configuration.
 
-Every generated validation message starts with:
+The relay feature is **privacy-preserving/pseudonymous, not technically anonymous**. Normal SMTP authorization, provider policies, and message traceability remain in effect. EmailSender does not spoof From addresses, bypass authentication, create or use open relays, forge trace headers, or attempt to make messages untraceable.
 
-`Games, OS, and Other topics`
+RFC 6409 separates message submission from message relay and specifies authenticated/authorized submission, normally on port 587.
 
-The message explains that the recipient is being asked to validate public repositories and invites feedback rather than pretending that a relationship exists.
+## Safety gates
+
+EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender/relay must authorize the submission.
+
+Dry-run is enabled by default. Suppression lists and opt-out handling remain active for every transport.
+
+## Multi-language implementations
+
+The provider-neutral relay contract is implemented for:
+
+- Node.js / TypeScript
+- Python
+- Java
+- C#
+- C++
+- Rust
+- Go
+- Kotlin
+- Swift
+- Dart
+- PHP
+- Ruby
+
+See `MULTILANGUAGE.md` and `languages/` for the language-specific policy modules. The common contract covers authorization, privacy mode, dry-run behavior, suppression, and rejection of open-relay/identity-spoofing configurations.
 
 ## Features
 
@@ -31,6 +55,8 @@ The message explains that the recipient is being asked to validate public reposi
 - Blocklist and suppression-list support.
 - Human approval queue before sending.
 - Native Node.js Proton SMTP adapter using STARTTLS on port 587.
+- Authenticated custom-relay configuration through runtime environment variables.
+- Privacy mode that minimizes application-side metadata without claiming anonymity.
 - Dry-run mode enabled by default.
 - Per-recipient send log shown in the application log panel.
 - Export/import of contact review queues.
@@ -39,23 +65,11 @@ The message explains that the recipient is being asked to validate public reposi
 
 ## Configuration
 
-`config/email-config.json` contains the non-secret sender and SMTP settings. `.env.example` documents the runtime variables. Never commit the actual SMTP token.
+`config/email-config.json` contains non-secret sender and relay policy. `.env.example` documents runtime variables. Never commit SMTP or relay credentials.
 
-Proton's SMTP token is a dedicated credential; do not use the normal Proton mailbox/login password for SMTP. See https://proton.me/support/smtp-submission
+## Reviewed SMTP send
 
-## Run
-
-Node.js:
-
-```bash
-node nodejs/src/index.js
-```
-
-The CLI remains discovery/review mode and does not send automatically.
-
-### Reviewed SMTP send
-
-After a human has approved a contact, a calling application can construct the transport from runtime-only credentials:
+After a human has approved a contact, a calling application can construct an authenticated transport from runtime-only credentials. The transport must identify itself as an authorized relay and cannot be configured as an open relay or From-spoofing transport.
 
 ```js
 import { createProtonSmtpTransport, EmailSender } from './src/index.js';
@@ -65,8 +79,8 @@ const transport = createProtonSmtpTransport({
   token: process.env.EMAILSENDER_SMTP_TOKEN
 });
 
-const sender = new EmailSender({ dryRun: false, requireHumanApproval: true });
-await sender.send(approvedContact, message, transport);
+const sender = new EmailSender({ dryRun: false, requireHumanApproval: true, requireAuthorizedRelay: true });
+await sender.send(approvedContact, message, transport, { privacyMode: true });
 ```
 
 The SMTP token is held only in memory by the transport and is excluded from its JSON representation and string description.
@@ -77,8 +91,9 @@ The SMTP token is held only in memory by the transport and is excluded from its 
 2. Research public pages.
 3. Review each discovered address and its source context.
 4. Mark only appropriate contacts as approved.
-5. Verify sender configuration and suppression list.
-6. Send individually or in a small reviewed batch.
-7. Monitor delivery/rejection results in the bottom log.
-8. Honor opt-out requests immediately and add them to the suppression list.
-9. Keep SMTP credentials in the runtime environment or deployment secret store.
+5. Choose the direct Proton transport or an authorized relay/alias.
+6. Verify sender authorization and suppression list.
+7. Send individually or in a small reviewed batch.
+8. Monitor delivery/rejection results in the bottom log.
+9. Honor opt-out requests immediately and add them to the suppression list.
+10. Keep all SMTP/relay credentials in the runtime environment or deployment secret store.
