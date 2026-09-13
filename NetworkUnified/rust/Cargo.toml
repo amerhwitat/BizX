@@ -1,0 +1,8 @@
+[package]
+name="bizx-network-api"
+version="0.1.0"
+edition="2021"
+
+[[bin]]
+name="bizx-network-api"
+path="src/main.rs"
