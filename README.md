@@ -2,9 +2,22 @@
 
 BizX is the core business/application repository for the BizX/BizXtreme platform.
 
+## EmailSender repository-validation tool
+
+`emailsender/` provides a topic-driven research and outreach assistant for validating BizX repositories. It extracts publicly displayed email addresses with source context, de-duplicates them, applies suppression rules, and places contacts into a human-review queue. The message header is **Games, OS, and Other topics** and the UI includes a bottom sending/research log.
+
+Production sending is intentionally not triggered simply by discovering an address. A recipient must be reviewed/approved, and a configured mail transport must be explicitly authorized. This is consistent with current guidance emphasizing recipient consent/opt-in where applicable, accurate sender identity, opt-out handling, and non-deceptive headers. citeturn0search0turn0search2turn0search3 Publicly listed contact information does not by itself establish marketing consent under UK PECR. citeturn0search7
+
+- Tool: `emailsender/`
+- Node implementation: `emailsender/nodejs/`
+- Python implementation: `emailsender/python/`
+- Browser UI: `emailsender/web/`
+- Example configuration: `emailsender/config/email-sender.example.json`
+- Validation workflow: `.github/workflows/emailsender-validation.yml`
+
 ## Tycoon Business Game
 
-The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, the shared payment-routing policy, and the new provider-neutral monetization engine.
+The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, the shared payment-routing policy, and the provider-neutral monetization engine.
 
 Purchases and payment settlement are configured for the primary Ethereum receiving address `0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162`. The repository never stores private keys. Real transfers, swaps, or exchanges remain non-custodial and require explicit user/wallet authorization.
 
@@ -25,6 +38,7 @@ Purchases and payment settlement are configured for the primary Ethereum receivi
 
 | Area | Source |
 |---|---|
+| EmailSender | [emailsender/](emailsender/) |
 | Visual C++ desktop | [desktop/vcpp/](desktop/vcpp/) |
 | C# WPF desktop | [desktop/dotnet/](desktop/dotnet/) |
 | Unreal Engine 5 C++ | [Unreal5/BizXUnreal/](Unreal5/BizXUnreal/) |
