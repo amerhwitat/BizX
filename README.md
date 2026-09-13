@@ -12,19 +12,22 @@ The repository provides Windows CMD/PowerShell and POSIX shell entry points that
 
 ### AAA systems expansion
 
-The game framework now includes a research-driven AAA systems layer based on public/open-source architecture patterns and public engine/storefront documentation. It is an original implementation and does **not** copy proprietary commercial game code, characters, maps, trademarks or copyrighted storefront assets.
+The game framework includes a research-driven AAA systems layer based on public/open-source architecture patterns and public engine/storefront documentation. It is an original implementation and does **not** copy proprietary commercial game code, characters, maps, trademarks, stories, scripts, music, voice recordings or copyrighted storefront assets.
 
 - Research and visual-reference catalog: `games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md`.
-- Shared data contracts: `games/story/aaa_system_contracts.json`.
+- Famous-game genre catalog: `games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md`.
+- Shared data contracts: `games/story/aaa_system_contracts.json` and `games/story/game_genre_systems.json`.
+- Rendering and legal asset pipeline: `games/story/RENDERING_AND_ASSET_PIPELINE.md`.
 - Deterministic systemic primitives: world cells, NPC needs/schedules, dynamic economy, abilities, vehicles, world events and simulation ticks.
-- Native/adapter implementations for Python, Node.js, Java, Kotlin, Swift, TypeScript, Unity C#, Unreal C++, Go, Rust, C++, standalone C#, Dart, PHP and Ruby.
+- Genre systems include original street-racing, open-world sandbox, 3D fighting, tactical RPG, MMO RPG, survival, racing simulation, action-adventure, city-building and arena-sports foundations.
+- Native/adapter implementations include Python, Node.js, Java, Kotlin, Swift, TypeScript, Unity C#, Unreal C++, Go, Rust, C++, standalone C#, Dart, PHP and Ruby, with additional adapters added incrementally.
 - Storyboard and branching quest logic remain data-driven under `games/story/storyboard.json`.
 - Visual references are documented by official source URL; screenshots are not redistributed unless their license permits it.
 - Asset imports must carry provider, creator, source URL, license and SHA-256 provenance.
 
-### Research-derived feature patterns
+### Famous-game inspiration boundary
 
-Open-source references include Veloren, ALIS, Vitric, O3DE and Nakama. Engine references include Unreal World Partition, MassEntity, Gameplay Ability System, PCG and Online Services. Storefront patterns studied include achievements, sessions/lobbies, player-driven economies, settlements, caravans, crafting, faction systems and world events from representative Steam/Epic releases. See the catalog for source links and license boundaries.
+BizX can reproduce **general gameplay concepts** such as open-world driving, police pursuit, vehicle tuning, tactical contracts, party progression, frame-based fighting, combos, parries, dynamic economies, faction wars and procedural worlds. It cannot copy the protected expression of named commercial games. This keeps BizX an original implementation while allowing it to learn from the broader game-development field.
 
 ### Story and gameplay
 
@@ -32,8 +35,17 @@ Open-source references include Veloren, ALIS, Vitric, O3DE and Nakama. Engine re
 - Deterministic authoritative game-state engines in Python, Node.js, Java, Kotlin, Swift and browser TypeScript.
 - Unity C# and Unreal C++ gameplay foundations.
 - Inventory, quests, faction reputation, skill checks, combat, progression and story flags.
+- Original vehicle/driving, wanted-state and 3D fighting primitives.
 - Optional AI narration is subordinate to deterministic game rules.
 - AssetBrowser provenance and licensing rules remain mandatory for external assets.
+
+## Real-time rendering
+
+`games/story/RENDERING_AND_ASSET_PIPELINE.md` defines a renderer-neutral path from fixed-step simulation to high-fidelity engine adapters. Supported targets include OpenGL/WebGL/WebGPU, Vulkan/D3D12/Metal-capable native renderers, and optional Unreal/Unity/O3DE presentation layers.
+
+The architecture supports world streaming, LOD, occlusion culling, instancing, dynamic resolution, async asset loading, animation/crowd LOD, GPU effects, frame-time telemetry and deterministic replay. High-end engine features remain optional adapter capabilities rather than requirements of the authoritative simulation.
+
+Recent research into real-time generative world rendering is also tracked as an experimental render-server boundary. Generated pixels never become authoritative gameplay state.
 
 ## InternetScanner — authorized network inventory
 
@@ -63,6 +75,9 @@ The cross-language Tycoon runtime is available in the Node.js, Java 17 and Pytho
 |---|---|
 | Flagship game design | [games/story/](games/story/) |
 | AAA research/reference catalog | [games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md](games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md) |
+| Famous-game genre catalog | [games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md](games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md) |
+| Rendering and asset pipeline | [games/story/RENDERING_AND_ASSET_PIPELINE.md](games/story/RENDERING_AND_ASSET_PIPELINE.md) |
+| Genre system contracts | [games/story/game_genre_systems.json](games/story/game_genre_systems.json) |
 | AAA system contracts | [games/story/aaa_system_contracts.json](games/story/aaa_system_contracts.json) |
 | InternetScanner | [InternetScanner/](InternetScanner/) |
 | NetworkUnified | [NetworkUnified/](NetworkUnified/) |
