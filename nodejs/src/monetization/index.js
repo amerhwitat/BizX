@@ -5,6 +5,13 @@ export const PRODUCTS = Object.freeze({
   vip_monthly: { type: 'subscription', price: 4.99, period: 'month' }
 });
 export const AD_PLACEMENTS = Object.freeze(['banner_home', 'interstitial_round_end', 'rewarded_double_income', 'rewarded_bonus_cash']);
+export const PAYMENT_ROUTING = Object.freeze({
+  ethereum: Object.freeze({ asset: 'ETH', recipient: '0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162' }),
+  paypal: Object.freeze({ account: 'amer.hwaitat@gmail.com' }),
+  defaultMethod: 'ethereum',
+  fallbackMethod: 'paypal',
+  requiresExplicitUserSelection: true
+});
 export class MonetizationEngine {
   constructor({ testMode = true } = {}) { this.testMode = testMode; this.events = []; this.entitlements = new Set(); }
   purchase(productId, provider = 'store') {
@@ -12,7 +19,20 @@ export class MonetizationEngine {
     if (!product) return { ok: false, reason: 'unknown-product' };
     this.events.push({ type: 'purchase', productId, provider, amount: product.price, testMode: this.testMode });
     if (product.type !== 'consumable') this.entitlements.add(productId);
-    return { ok: true, productId, provider, amount: product.price, status: 'verification-required' };
+    return {
+      ok: true,
+      productId,
+      provider,
+      amount: product.price,
+      status: 'verification-required',
+      paymentMethods: {
+        ethereum: { ...PAYMENT_ROUTING.ethereum },
+        paypal: { ...PAYMENT_ROUTING.paypal }
+      },
+      defaultPaymentMethod: PAYMENT_ROUTING.defaultMethod,
+      fallbackPaymentMethod: PAYMENT_ROUTING.fallbackMethod,
+      requiresExplicitUserSelection: PAYMENT_ROUTING.requiresExplicitUserSelection
+    };
   }
   recordAdImpression(placement, provider) {
     if (!AD_PLACEMENTS.includes(placement)) return { ok: false, reason: 'unknown-placement' };
