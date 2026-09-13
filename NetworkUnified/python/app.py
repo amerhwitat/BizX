@@ -7,7 +7,8 @@ def classify(x):
 def allowed(x): return classify(x)!='public' or x in ALLOW
 class H(http.server.BaseHTTPRequestHandler):
  def out(self,o,code=200):
-  b=json.dumps(o).encode(); self.send_response(code); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(b))); self.end_headers(); self.wfile.write(b)
+  b=json.dumps(o).encode(); self.send_response(code); self.send_header('Content-Type','application/json'); self.send_header('Access-Control-Allow-Origin','*'); self.send_header('Content-Length',str(len(b))); self.end_headers(); self.wfile.write(b)
+ def do_OPTIONS(self): self.send_response(204); self.send_header('Access-Control-Allow-Origin','*'); self.send_header('Access-Control-Allow-Methods','GET,POST,OPTIONS'); self.send_header('Access-Control-Allow-Headers','Content-Type'); self.end_headers()
  def do_GET(self):
   if self.path=='/api/v1': return self.out(CAT)
   if self.path=='/api/v1/health': return self.out({'status':'ok','implementation':'python'})
@@ -15,8 +16,8 @@ class H(http.server.BaseHTTPRequestHandler):
   if self.path=='/api/v1/interfaces': return self.out({'hostname':socket.gethostname(),'addresses':list({x[4][0] for x in socket.getaddrinfo(socket.gethostname(),None)})})
   return self.out({'error':'not_found'},404)
  def do_POST(self):
-  try: d=json.loads(self.rfile.read(int(self.headers.get('Content-Length','0')) or 0) or b'{}')
-  except Exception: return self.out({'error':'invalid_json'},400)
+  try:d=json.loads(self.rfile.read(int(self.headers.get('Content-Length','0')) or 0) or b'{}')
+  except Exception:return self.out({'error':'invalid_json'},400)
   x=d.get('ip') or d.get('host')
   if self.path=='/api/v1/classify':
    try:return self.out({'target':x,'scope':classify(x)})
@@ -27,10 +28,10 @@ class H(http.server.BaseHTTPRequestHandler):
   if self.path=='/api/v1/tcp-check':
    if not x:return self.out({'error':'target_required'},400)
    try:
-    if not allowed(x): return self.out({'error':'public_target_not_allowlisted'},403)
+    if not allowed(x):return self.out({'error':'public_target_not_allowlisted'},403)
     p=int(d.get('port',80)); s=socket.create_connection((x,p),timeout=min(float(d.get('timeout',1)),3)); s.close(); return self.out({'target':x,'port':p,'reachable':True})
    except Exception as e:return self.out({'target':x,'port':d.get('port',80),'reachable':False,'error':type(e).__name__})
   return self.out({'error':'not_found'},404)
- def log_message(self,*a): pass
+ def log_message(self,*a):pass
 print(f'BizX Network API (python) listening on 127.0.0.1:{PORT}')
 http.server.ThreadingHTTPServer(('127.0.0.1',PORT),H).serve_forever()
