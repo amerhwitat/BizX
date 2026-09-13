@@ -4,56 +4,41 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 
 ## Unified build and configuration automation
 
-The repository now provides native Windows CMD/PowerShell and POSIX shell entry points that discover application manifests and invoke the appropriate dependency manager/build system for each programming language.
-
-```text
-build.cmd             # Windows CMD -> PowerShell orchestrator
-build.sh              # Linux/macOS/WSL
-install-deps.cmd      # Windows dependency bootstrap
-install-deps.sh       # POSIX dependency bootstrap
-clean.cmd / clean.sh  # remove generated build/dependency directories
-scripts/build.ps1
-scripts/build.sh
-scripts/install-deps.ps1
-scripts/install-deps.sh
-scripts/clean.ps1
-scripts/clean.sh
-```
-
-Supported native ecosystems include Node.js/npm, Python/pip, Rust/Cargo, Go/modules, Java/Maven, Kotlin/Gradle, C/C++/CMake, Swift/SwiftPM, Dart/pub, PHP/Composer and Ruby/Bundler. The orchestrator discovers manifests recursively while excluding source-control and generated dependency/build directories.
-
-Dependency installation uses existing lockfiles where present. Operating-system toolchain installation is intentionally not forced by the repository scripts; missing toolchains are reported so administrators can install them through their managed OS package mechanism. This avoids silently changing a developer workstation.
-
-The same build entry points are used by `.github/workflows/build-all.yml`, providing Linux, Windows and macOS validation. GitHub documents native build/test workflows for Node.js, Python, Java, Go, .NET, Ruby, Rust, Swift and related ecosystems, and its setup actions support dependency caching. citeturn0search1turn0search5 CMake Presets can be used by individual C/C++ applications for reproducible configure/build settings. citeturn0search0
+The repository provides Windows CMD/PowerShell and POSIX shell entry points that discover application manifests and invoke the appropriate dependency manager/build system for each programming language.
 
 ## InternetScanner — authorized network inventory
 
-`InternetScanner/` provides a cross-language network inventory and host-discovery component. It distinguishes local/intranet assets from globally routable public assets, records normalized host information, performs local discovery, and supports passive DNS/RDAP-style public metadata for explicitly authorized assets.
+`InternetScanner/` provides cross-language network inventory and host discovery. It distinguishes local/intranet assets from public assets and keeps public active operations allowlist-only.
 
-The scanner is deliberately bounded: public active discovery requires an explicit target allowlist; target counts, concurrency and probe rates are bounded; Internet-wide enumeration, evasion, spoofing, credential attacks and exploitation are not implemented.
+## NetworkUnified — user-facing networking/API application
 
-## EmailSender repository-validation tool
+`NetworkUnified/` consolidates the repository networking code behind a versioned API contract. It provides a runnable implementation for Python, Node.js, TypeScript, Go, Rust, Java, C#, C++, Dart, Kotlin, Swift, PHP and Ruby. The API exposes catalog, health, safe configuration, local interfaces, IP classification, authorization, and bounded TCP connectivity checks. Python and Node.js provide local HTTP API servers on `127.0.0.1:8787`; the other implementations provide native runnable adapters/diagnostics using their language networking APIs.
 
-`emailsender/` provides a topic-driven research and outreach assistant for validating BizX repositories. It extracts publicly displayed email addresses with source context, de-duplicates them, applies suppression rules, and places contacts into a human-review queue.
+Launch from the repository root with `run-network-api.bat`, `run-network-api.ps1`, or `run-network-api.sh`. Select an implementation with `NETWORK_API_IMPL=python|node|typescript|go|rust|java|csharp|cpp|dart|kotlin|swift|php|ruby`.
+
+The GUI console is at `NetworkUnified/gui/index.html` and the shared API contract is `NetworkUnified/contract/api.json`.
+
+Public targets require an explicit allowlist. The networking layer does not implement Internet-wide enumeration, credential attacks, evasion, spoofing, or exploitation.
 
 ## Tycoon Business Game
 
-The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, the shared payment-routing policy, and the provider-neutral monetization engine.
+The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, payment-routing policy, and provider-neutral monetization.
 
 ## Monetization
 
 `games/monetization/` adds consumable packs, premium unlocks, subscriptions, banner/interstitial/rewarded ads, revenue events, entitlement tracking, test mode, and server-side verification hooks.
 
-## Source-code citation index
+## Source-code index
 
 | Area | Source |
 |---|---|
 | InternetScanner | [InternetScanner/](InternetScanner/) |
+| NetworkUnified | [NetworkUnified/](NetworkUnified/) |
 | EmailSender | [emailsender/](emailsender/) |
 | Visual C++ desktop | [desktop/vcpp/](desktop/vcpp/) |
 | C# WPF desktop | [desktop/dotnet/](desktop/dotnet/) |
 | Unreal Engine 5 C++ | [Unreal5/BizXUnreal/](Unreal5/BizXUnreal/) |
-| Unity 3D package/data | [Unity3D/](Unity3D/) |
+| Unity 3D | [Unity3D/](Unity3D/) |
 | Mobile Kotlin | [mobile/kotlin/](mobile/kotlin/) |
 | Mobile Flutter | [mobile/flutter/](mobile/flutter/) |
 | Payment configuration | [games/payment-config/](games/payment-config/) |
