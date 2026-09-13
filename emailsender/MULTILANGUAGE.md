@@ -20,7 +20,7 @@ Each implementation supports:
 
 A relay may conceal application-side infrastructure details from a recipient only when the relay provider authorizes that behavior. EmailSender never falsifies SMTP identity, bypasses relay authentication, or attempts to create an open relay.
 
-The implementation contract deliberately separates `submission` from `relay`: RFC 6409 defines message submission as an authenticated/authorized service and reserves port 587 for normal submission. citeturn0search0
+The implementation contract deliberately separates `submission` from `relay`. RFC 6409 defines message submission as an authenticated/authorized service and reserves port 587 for normal submission.
 
 ## Privacy model
 
