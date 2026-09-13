@@ -15,17 +15,32 @@ Proton documents SMTP submission for supported applications using `smtp.protonma
 EmailSender supports two legitimate transport modes:
 
 1. **Direct authenticated submission** — such as the configured Proton SMTP transport.
-2. **Authenticated relay / authorized alias** — a user-configured relay can be selected through environment-backed configuration.
+2. **Authenticated relay / authorized alias** — a user-configured SMTP relay can be selected through environment-backed configuration.
 
 The relay feature is **privacy-preserving/pseudonymous, not technically anonymous**. Normal SMTP authorization, provider policies, and message traceability remain in effect. EmailSender does not spoof From addresses, bypass authentication, create or use open relays, forge trace headers, or attempt to make messages untraceable.
 
-RFC 6409 separates message submission from message relay and specifies authenticated/authorized submission, normally on port 587.
+RFC 6409 separates message submission from message relay and specifies authenticated/authorized submission, normally on port 587. citeturn0search0
 
 ## Safety gates
 
 EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender/relay must authorize the submission.
 
 Dry-run is enabled by default. Suppression lists and opt-out handling remain active for every transport.
+
+## Authenticated relay
+
+The Node.js implementation now includes a provider-neutral `createAuthenticatedRelayTransport()` supporting:
+
+- STARTTLS on port 587 by default.
+- TLS-on-connect when explicitly selected.
+- Runtime-only username/password or token credentials.
+- Mandatory authorized-sender allowlisting.
+- Explicit rejection of open-relay and From-spoofing configurations.
+- Sender validation immediately before `MAIL FROM`.
+- Credential-free `toJSON()`/logging metadata.
+- No insecure plaintext transport unless explicitly enabled by the caller.
+
+The environment-backed helper is `createRelayFromEnvironment()` in `nodejs/src/index.js`. Real credentials must never be committed to Git.
 
 ## Multi-language implementations
 
@@ -83,7 +98,17 @@ const sender = new EmailSender({ dryRun: false, requireHumanApproval: true, requ
 await sender.send(approvedContact, message, transport, { privacyMode: true });
 ```
 
-The SMTP token is held only in memory by the transport and is excluded from its JSON representation and string description.
+For another authorized provider:
+
+```js
+import { createRelayFromEnvironment, EmailSender } from './src/index.js';
+
+const transport = createRelayFromEnvironment();
+const sender = new EmailSender({ dryRun: false, requireHumanApproval: true, requireAuthorizedRelay: true });
+await sender.send(approvedContact, message, transport, { privacyMode: true });
+```
+
+The SMTP credential is held only in memory by the transport and is excluded from its JSON representation and string description.
 
 ## Recommended workflow
 
