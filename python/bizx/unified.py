@@ -11,21 +11,11 @@ from .game.tycoon import TycoonGame
 from .monetization import MonetizationEngine
 from .payments import PaymentService
 from .wallet import WalletProvider
+from .feature_manifest import manifest
 from .modules import (
-    AssetBrowserService,
-    CryptoService,
-    EmailService,
-    GameAssetService,
-    GameLauncherService,
-    GameStoreService,
-    InternetScanner,
-    MobileState,
-    NetworkService,
-    NetworkUnifiedService,
-    RenderingService,
-    Scene3D,
-    ScriptInventory,
-    WebService,
+    AssetBrowserService, CryptoService, EmailService, GameAssetService, GameLauncherService,
+    GameStoreService, InternetScanner, MobileState, NetworkService, NetworkUnifiedService,
+    RenderingService, Scene3D, ScriptInventory, WebService,
 )
 
 
@@ -61,8 +51,12 @@ class BizXRuntime:
             "status": "ok",
             "implementation": "python",
             "modules": sorted(self.modules),
+            "source_trees": sorted(manifest()["source_to_python"]),
             "api": self.api.health(),
         }
+
+    def feature_manifest(self) -> dict[str, object]:
+        return manifest()
 
     def start(self, mode: str = "default") -> int:
         print("BizX unified Python runtime starting")
@@ -77,6 +71,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="BizX unified Python runtime")
     parser.add_argument("mode", nargs="?", default="default", choices=("default", "tycoon"))
     parser.add_argument("--health", action="store_true")
+    parser.add_argument("--manifest", action="store_true", help="print the source-to-Python conversion manifest")
     parser.add_argument("--gui", action="store_true", help="open the native Tkinter control panel")
     args = parser.parse_args(argv)
     if args.gui:
@@ -84,6 +79,9 @@ def main(argv: list[str] | None = None) -> int:
         gui_main()
         return 0
     runtime = BizXRuntime()
+    if args.manifest:
+        print(json.dumps(runtime.feature_manifest(), indent=2))
+        return 0
     if args.health:
         print(json.dumps(runtime.health(), indent=2, default=str))
         return 0
