@@ -1,0 +1,34 @@
+name: Validate InternetScanner
+on:
+  push:
+    paths:
+      - 'InternetScanner/**'
+      - '.github/workflows/internet-scanner-validation.yml'
+  pull_request:
+    paths:
+      - 'InternetScanner/**'
+      - '.github/workflows/internet-scanner-validation.yml'
+jobs:
+  node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test InternetScanner/languages/nodejs/scanner.test.js
+  policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify scanner safety defaults
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('InternetScanner/config/scanner.json'))
+          assert c['authorizedOnly'] is True
+          assert c['public']['allowlistedTargets'] == []
+          assert c['maxTargets'] <= 1024
+          assert c['ratePerSecond'] <= 25
+          print('InternetScanner policy checks passed')
+          PY
