@@ -1,0 +1,8 @@
+{
+  "schema":"bizx.chess-strategy.v1",
+  "chess":{"protocols":["UCI","FEN","PGN"],"features":["legal_moves","clock","puzzles","analysis","replay","variants"]},
+  "strategy":{"features":["turns","resources","production","trade","territory","diplomacy","technology","fog_of_war","ai_policy","replay"]},
+  "network":{"envelope":"bizx.network.v1","authoritative_state":true,"deterministic":true},
+  "external_engines":{"stockfish":{"adapter_only":true,"license":"GPL-3.0-or-later"}},
+  "asset_policy":{"commercial_rips":false,"require_provenance":true,"require_license":true,"require_sha256":true}
+}
