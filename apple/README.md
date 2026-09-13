@@ -1,7 +1,5 @@
-# Apple application
+# BizX Apple / Mobile
 
-BizX Apple source uses a native SwiftUI/Xcode shell with a shared protocol/state boundary. Kotlin Multiplatform may host portable business and authenticated conversation logic where available.
+Swift implementation for Apple platforms. `UnifiedBizXRuntime` provides the same feature contract as Java, Kotlin and Node.js while allowing iOS/macOS UI, networking and GPU rendering to remain native.
 
-Targets: iOS/iPadOS (`iosArm64`, `iosSimulatorArm64`) and macOS. Real-time chat/voice/camera features remain explicit-permission, user-initiated capabilities. IPA export requires macOS/Xcode.
-
-Use `scripts/build-ios.sh`, `scripts/archive-ios.sh`, and `scripts/export-ipa.sh` on macOS.
+Crypto uses CryptoKit primitives and network operations should use platform URLSession/approved endpoints. No private wallet secrets are persisted by the unified runtime.

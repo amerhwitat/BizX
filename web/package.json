@@ -1,0 +1,7 @@
+{
+  "name": "@bizx/web-runtime",
+  "private": true,
+  "type": "module",
+  "scripts": {"test":"node --test test/*.test.js"},
+  "exports": {".": "./src/unified-runtime.js"}
+}

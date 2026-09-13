@@ -1,33 +1,17 @@
-# BizX Java
+# BizX Java Unified Runtime
 
-Java 17+ implementation of BizX business services and integration boundaries.
+Java 17+ parity implementation for the BizX game platform. `UnifiedBizXRuntime` is the single Java facade for Game, NetworkUnified, launcher, InternetScanner, AssetBrowser, Crypto, Web, 3D, game-assets, game-store, network, rendering and scripts.
 
-## Single-point game entry
+The Java layer preserves platform boundaries: native/browser/mobile-specific behavior is exposed through explicit contracts rather than unsafe source renaming. Existing Java services remain available.
 
-`io.amerhwitat.bizx.GameLauncher` is the canonical Java entry point for starting the BizX game/application runtime. It creates the public `BizXApi` boundary and starts the application without coupling Java source to another implementation language.
-
-Build and launch:
+## Build
 
 ```bash
+mvn test
 mvn package
 java -cp target/classes io.amerhwitat.bizx.GameLauncher
 ```
 
-## Build and test
+## Security
 
-```bash
-mvn test
-```
-
-## Layout
-
-- `src/main/java/io/amerhwitat/bizx/GameLauncher.java` — single-point game/application entry
-- `src/main/java/io/amerhwitat/bizx/core` — core health/runtime model
-- `src/main/java/io/amerhwitat/bizx/wallet` — wallet provider / JSON-RPC boundary
-- `src/main/java/io/amerhwitat/bizx/catalog` — catalog service
-- `src/main/java/io/amerhwitat/bizx/payments` — payment lifecycle model
-- `src/main/java/io/amerhwitat/bizx/api` — API boundary
-- `src/main/java/io/amerhwitat/bizx/cli` — command-line utilities
-- `src/test/java` — JUnit tests
-
-Java source is isolated under this directory and does not mix with Node.js, browser JavaScript, TypeScript, Python, or native source. See `../docs/GAME_ENTRYPOINTS.md` for the cross-language launcher contract.
+Public network targets require an explicit allowlist. Crypto creates provider-bound unsigned intents; private keys and seed phrases are never persisted by this runtime. Internet scanning and asset downloads require explicit application-level authorization.
