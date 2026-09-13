@@ -20,8 +20,6 @@ Unified mobile architecture for the BizX game/application. The mobile implementa
 
 Real cryptocurrency settlement is deliberately not embedded in the mobile game ledger. Wallet/network integrations must be explicitly authorized by the user and handled by the existing security/payment layers.
 
-Flutter's layered architecture and platform-channel model support this separation, while Android's Jetpack/Compose architecture provides the native Android UI boundary. citeturn0search0turn0search5
-
 ## Structure
 
 ```text
