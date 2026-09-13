@@ -25,9 +25,21 @@ The game framework includes a research-driven AAA systems layer based on public/
 - Visual references are documented by official source URL; screenshots are not redistributed unless their license permits it.
 - Asset imports must carry provider, creator, source URL, license and SHA-256 provenance.
 
+### Chess and strategy systems
+
+`games/chess-strategy/` adds a common chess/strategy contract and native adapters across the language implementations. Chess support includes FEN/PGN, legal-move integration, UCI engine boundaries, clocks, puzzles, analysis, replay and variant-provider hooks. Strategy support includes deterministic turns, resources, production, trade, territory, diplomacy, technology, fog-of-war, AI policies and replay.
+
+The engine boundary is intentionally provider-neutral. Stockfish 19 is the current open-source research target, while python-chess and Lichess source projects provide public protocol/rules/UI references. External code remains separately licensed and is not copied into BizX. citeturn0search9turn0search4turn0search0
+
+### Network, cryptography and wallets
+
+`games/crypto-wallet/` defines the cross-language contract for the existing NetworkUnified layer plus cryptocurrency and wallet capabilities. It covers IPv4/IPv6, TCP/UDP/HTTP/HTTPS/WebSocket boundaries, versioned network envelopes, hashing/HMAC/signature-provider interfaces, address/account metadata, watch-only wallets, provider-backed wallets, transaction lifecycle and explicit confirmation.
+
+Supported coin metadata currently includes BTC, BCH, LTC, DOGE, ETH, ETC, SOL, ADA, XRP, DOT and AVAX. The integration is non-custodial by default: secrets are never committed or logged, free gameplay does not require crypto, and transaction submission remains behind an explicit provider/confirmation boundary.
+
 ### Famous-game inspiration boundary
 
-BizX can reproduce **general gameplay concepts** such as open-world driving, police pursuit, vehicle tuning, tactical contracts, party progression, frame-based fighting, combos, parries, dynamic economies, faction wars and procedural worlds. It cannot copy the protected expression of named commercial games. This keeps BizX an original implementation while allowing it to learn from the broader game-development field.
+BizX can reproduce general gameplay concepts such as open-world driving, police pursuit, vehicle tuning, tactical contracts, party progression, frame-based fighting, combos, parries, dynamic economies, faction wars and procedural worlds. It cannot copy the protected expression of named commercial games. This keeps BizX an original implementation while allowing it to learn from the broader game-development field.
 
 ### Story and gameplay
 
@@ -69,32 +81,39 @@ The cross-language Tycoon runtime is available in the Node.js, Java 17 and Pytho
 
 `games/monetization/` adds consumable packs, premium unlocks, subscriptions, banner/interstitial/rewarded ads, revenue events, entitlement tracking, test mode, and server-side verification hooks.
 
+## Feature conversion and interoperability
+
+See `docs/FEATURE_CONVERSION_MAP.md`, `games/chess-strategy/contracts.json` and `games/crypto-wallet/contracts.json` for the shared contracts and language mapping.
+
 ## Source-code index
 
 | Area | Source |
 |---|---|
-| Flagship game design | [games/story/](games/story/) |
-| AAA research/reference catalog | [games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md](games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md) |
-| Famous-game genre catalog | [games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md](games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md) |
-| Rendering and asset pipeline | [games/story/RENDERING_AND_ASSET_PIPELINE.md](games/story/RENDERING_AND_ASSET_PIPELINE.md) |
-| Genre system contracts | [games/story/game_genre_systems.json](games/story/game_genre_systems.json) |
-| AAA system contracts | [games/story/aaa_system_contracts.json](games/story/aaa_system_contracts.json) |
-| InternetScanner | [InternetScanner/](InternetScanner/) |
-| NetworkUnified | [NetworkUnified/](NetworkUnified/) |
-| AssetBrowser | [AssetBrowser/](AssetBrowser/) |
-| EmailSender | [emailsender/](emailsender/) |
-| Visual C++ desktop | [desktop/vcpp/](desktop/vcpp/) |
-| C# WPF desktop | [desktop/dotnet/](desktop/dotnet/) |
-| Unreal Engine 5 C++ | [Unreal5/BizXUnreal/](Unreal5/BizXUnreal/) |
-| Unity 3D | [Unity3D/](Unity3D/) |
-| Mobile Kotlin | [mobile/kotlin/](mobile/kotlin/) |
-| Mobile Flutter | [mobile/flutter/](mobile/flutter/) |
-| Payment configuration | [games/payment-config/](games/payment-config/) |
-| Monetization | [games/monetization/](games/monetization/) |
-| Node.js | [nodejs/](nodejs/) |
-| Java | [java/](java/) |
-| Python | [python/](python/) |
-| JavaScript | [javascript/](javascript/) |
-| TypeScript | [typescript/](typescript/) |
-| Apple/Swift | [apple/](apple/) |
-| Documentation | [docs/](docs/) |
+| Flagship game design | `games/story/` |
+| AAA research/reference catalog | `games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md` |
+| Famous-game genre catalog | `games/story/FAMOUS_GAME_GENRE_INSPIRATION_CATALOG.md` |
+| Rendering and legal asset pipeline | `games/story/RENDERING_AND_ASSET_PIPELINE.md` |
+| Genre system contracts | `games/story/game_genre_systems.json` |
+| AAA system contracts | `games/story/aaa_system_contracts.json` |
+| Chess and strategy | `games/chess-strategy/` |
+| Crypto and wallets | `games/crypto-wallet/` |
+| Feature conversion map | `docs/FEATURE_CONVERSION_MAP.md` |
+| InternetScanner | `InternetScanner/` |
+| NetworkUnified | `NetworkUnified/` |
+| AssetBrowser | `AssetBrowser/` |
+| EmailSender | `emailsender/` |
+| Visual C++ desktop | `desktop/vcpp/` |
+| C# WPF desktop | `desktop/dotnet/` |
+| Unreal Engine 5 C++ | `Unreal5/BizXUnreal/` |
+| Unity 3D | `Unity3D/` |
+| Mobile Kotlin | `mobile/kotlin/` |
+| Mobile Flutter | `mobile/flutter/` |
+| Payment configuration | `games/payment-config/` |
+| Monetization | `games/monetization/` |
+| Node.js | `nodejs/` |
+| Java | `java/` |
+| Python | `python/` |
+| JavaScript | `javascript/` |
+| TypeScript | `typescript/` |
+| Apple/Swift | `apple/` |
+| Documentation | `docs/` |
