@@ -1,12 +1,8 @@
-import { strict as assert } from 'node:assert';
 import { UnifiedBizXRuntime } from './unified';
 
-describe('UnifiedBizXRuntime', () => {
-  it('exposes feature parity', () => {
-    const runtime = new UnifiedBizXRuntime();
-    assert.ok(runtime.features.includes('game'));
-    assert.ok(runtime.features.includes('NetworkUnified'));
-    assert.ok(runtime.features.includes('crypto'));
-    assert.ok(runtime.features.includes('3D'));
-  });
-});
+export function testUnifiedBizXRuntime(): void {
+  const runtime = new UnifiedBizXRuntime();
+  for (const feature of ['game', 'NetworkUnified', 'crypto', '3D']) {
+    if (!runtime.features.includes(feature as never)) throw new Error(`missing feature: ${feature}`);
+  }
+}
