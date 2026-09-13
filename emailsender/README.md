@@ -2,11 +2,17 @@
 
 EmailSender is a repository-validation outreach assistant for BizX. It researches public project/repository topics, extracts publicly displayed email addresses, de-duplicates and classifies contacts, and prepares validation messages.
 
+## Sender
+
+- **From:** `amer.hwitat@proton.me`
+- **Display name:** `Amer Hwitat`
+- **Message header:** `Games, OS, and Other topics`
+
+Proton documents SMTP submission for supported applications using `smtp.protonmail.ch`, port `587`, STARTTLS, and a dedicated SMTP token rather than the normal mailbox password. Keep that token outside Git and inject it through the runtime environment. See Proton's official SMTP submission documentation: https://proton.me/support/smtp-submission
+
 ## Important sending policy
 
 EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender must have permission to send. This protects recipients and the sender from spam/abuse and supports applicable consent, opt-out, and sender-identification requirements.
-
-Google recommends consent/opt-in for bulk or commercial mail, accurate sender identity, clear content, and unsubscribe handling. citeturn0search0turn0search2 The FTC also requires accurate headers and an opt-out mechanism for covered commercial email. citeturn0search3 Public availability of an address is not itself evidence of consent under UK PECR. citeturn0search7
 
 ## Message header
 
@@ -24,7 +30,7 @@ The message explains that the recipient is being asked to validate public reposi
 - Domain and address de-duplication.
 - Blocklist and suppression-list support.
 - Human approval queue before sending.
-- SMTP adapter with environment-only credentials.
+- Proton SMTP adapter with environment-only credentials.
 - Dry-run mode enabled by default.
 - Per-recipient send log shown in the application log panel.
 - Export/import of contact review queues.
@@ -33,25 +39,15 @@ The message explains that the recipient is being asked to validate public reposi
 
 ## Configuration
 
-Copy `config/email-sender.example.json` to a local configuration file. Keep secrets in environment variables. Never commit production SMTP credentials.
+`config/email-config.json` contains the non-secret sender and SMTP settings. `.env.example` documents the runtime variables. Never commit the actual SMTP token.
 
 ## Run
 
 Node.js:
 
 ```bash
-node src/index.js
+node nodejs/src/index.js
 ```
-
-Python:
-
-```bash
-python -m emailsender
-```
-
-Web UI:
-
-Open `web/index.html` in a local development server. The UI provides research, queue review, and a bottom-of-screen send log.
 
 ## Recommended workflow
 
