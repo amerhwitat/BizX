@@ -5,7 +5,7 @@ Unified Node.js implementation of the BizX application contracts. The `src/unifi
 ## Requirements
 - Node.js 20+
 
-Node.js supports stable ECMAScript modules and provides standard cryptographic, HTTP/HTTPS, networking and Web APIs; BizX uses those platform primitives rather than implementing cryptographic primitives from scratch. citeturn0search0turn0search2turn0search3
+Node.js provides stable ECMAScript modules and standard cryptographic, HTTP/HTTPS and networking APIs. BizX uses those platform primitives rather than implementing cryptographic primitives from scratch.
 
 ## One application entry point
 
