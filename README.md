@@ -12,13 +12,13 @@ The repository provides Windows CMD/PowerShell and POSIX shell entry points that
 
 ## NetworkUnified — user-facing networking/API application
 
-`NetworkUnified/` consolidates the repository networking code behind a versioned API contract. It provides a runnable implementation for Python, Node.js, TypeScript, Go, Rust, Java, C#, C++, Dart, Kotlin, Swift, PHP and Ruby. The API exposes catalog, health, safe configuration, local interfaces, IP classification, authorization, and bounded TCP connectivity checks. Python and Node.js provide local HTTP API servers on `127.0.0.1:8787`; the other implementations provide native runnable adapters/diagnostics using their language networking APIs.
+`NetworkUnified/` consolidates networking code behind a versioned API contract with runnable implementations for Python, Node.js, TypeScript, Go, Rust, Java, C#, C++, Dart, Kotlin, Swift, PHP and Ruby.
 
-Launch from the repository root with `run-network-api.bat`, `run-network-api.ps1`, or `run-network-api.sh`. Select an implementation with `NETWORK_API_IMPL=python|node|typescript|go|rust|java|csharp|cpp|dart|kotlin|swift|php|ruby`.
+## AssetBrowser — in-game open/free asset library
 
-The GUI console is at `NetworkUnified/gui/index.html` and the shared API contract is `NetworkUnified/contract/api.json`.
+`AssetBrowser/` adds a game-facing GUI for searching openly licensed media, reviewing provider/license metadata, downloading selected assets, verifying SHA-256, and importing them into `game_assets/`. It integrates with Openverse, Poly Haven and the official Kenney catalog. Downloads are restricted to configured HTTPS provider hosts and are never executed. Every imported asset receives a provenance/license record in `game_assets/manifest.json`.
 
-Public targets require an explicit allowlist. The networking layer does not implement Internet-wide enumeration, credential attacks, evasion, spoofing, or exploitation.
+Launch with `AssetBrowser/scripts/run.bat`, `AssetBrowser/scripts/run.ps1`, or `AssetBrowser/scripts/run.sh`. Default GUI/API address is `http://127.0.0.1:8790`.
 
 ## Tycoon Business Game
 
@@ -34,6 +34,7 @@ The cross-language Tycoon runtime is available in the Node.js, Java 17 and Pytho
 |---|---|
 | InternetScanner | [InternetScanner/](InternetScanner/) |
 | NetworkUnified | [NetworkUnified/](NetworkUnified/) |
+| AssetBrowser | [AssetBrowser/](AssetBrowser/) |
 | EmailSender | [emailsender/](emailsender/) |
 | Visual C++ desktop | [desktop/vcpp/](desktop/vcpp/) |
 | C# WPF desktop | [desktop/dotnet/](desktop/dotnet/) |
