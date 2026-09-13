@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "authorizedOnly": true,
+  "mode": "discover",
+  "scope": "local",
+  "maxTargets": 1024,
+  "ratePerSecond": 25,
+  "concurrency": 32,
+  "public": {
+    "allowlistedTargets": [],
+    "passiveMetadata": true,
+    "rdap": true,
+    "reverseDns": true
+  },
+  "discovery": {
+    "arp": true,
+    "neighborDiscovery": true,
+    "icmp": true,
+    "tcpConnect": true,
+    "ports": [80, 443, 22, 53]
+  },
+  "logging": {
+    "structuredJson": true,
+    "redactCredentials": true
+  }
+}
