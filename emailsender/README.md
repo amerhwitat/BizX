@@ -19,7 +19,7 @@ EmailSender supports two legitimate transport modes:
 
 The relay feature is **privacy-preserving/pseudonymous, not technically anonymous**. Normal SMTP authorization, provider policies, and message traceability remain in effect. EmailSender does not spoof From addresses, bypass authentication, create or use open relays, forge trace headers, or attempt to make messages untraceable.
 
-RFC 6409 separates message submission from message relay and specifies authenticated/authorized submission, normally on port 587. citeturn0search0
+RFC 6409 separates message submission from message relay and specifies authenticated/authorized submission, normally on port 587.
 
 ## Safety gates
 
