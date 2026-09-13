@@ -26,9 +26,12 @@
         "id": "custom-authenticated-relay",
         "hostEnv": "EMAILSENDER_RELAY_HOST",
         "portEnv": "EMAILSENDER_RELAY_PORT",
-        "security": "starttls-or-tls",
+        "securityEnv": "EMAILSENDER_RELAY_SECURITY",
+        "defaultSecurity": "starttls",
+        "allowedSecurity": ["starttls", "tls"],
         "usernameEnv": "EMAILSENDER_RELAY_USERNAME",
         "passwordEnv": "EMAILSENDER_RELAY_PASSWORD",
+        "authorizedSenderEnv": "EMAILSENDER_FROM_EMAIL",
         "authorizedSenderRequired": true
       }
     ],
