@@ -15,6 +15,8 @@ test('authenticated relay requires credentials and an authorized sender', () => 
   assert.equal(transport.openRelay, false);
   assert.equal(transport.spoofing, false);
   assert.equal(transport.host, 'smtp.example.org');
+  assert.equal(transport.security, 'starttls');
+  assert.doesNotMatch(JSON.stringify(transport), /secret/);
 });
 
 test('authenticated relay rejects a sender outside its allowlist', () => {
@@ -26,4 +28,14 @@ test('authenticated relay rejects a sender outside its allowlist', () => {
   });
   assert.throws(() => transport.assertSender('other@example.org'), /authorized sender/i);
   assert.doesNotThrow(() => transport.assertSender('amer.hwitat@proton.me'));
+});
+
+test('insecure plaintext relay is rejected by default', () => {
+  assert.throws(() => createAuthenticatedRelayTransport({
+    host: 'smtp.example.org',
+    username: 'relay-user',
+    password: 'secret',
+    authorizedSender: 'amer.hwitat@proton.me',
+    security: 'plain'
+  }), /insecure/i);
 });
