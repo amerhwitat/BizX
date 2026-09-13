@@ -1,5 +1,11 @@
-"""GUI-first package entry point; the engine remains available programmatically."""
+"""Unified Python package entry point.
 
-from .gui import main
+Use ``python -m bizx`` for the headless runtime or ``python -m bizx --gui``
+for the native GUI control panel.
+"""
 
-raise SystemExit(main())
+from .unified import main
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
