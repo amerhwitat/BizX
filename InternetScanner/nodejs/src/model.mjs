@@ -1,20 +1,22 @@
+import net from 'node:net';
+
 export const PORT_STATES = Object.freeze(['open','closed','filtered','unfiltered','open|filtered','closed|filtered']);
 export const VULNERABILITY_STATES = Object.freeze(['NOT_VULN','LIKELY_VULN','VULN']);
 export const PROTOCOLS = Object.freeze(['tcp','udp']);
 
-export function validatePort(port) {
-  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('invalid port');
-}
+export function validatePort(port) { if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('invalid port'); }
 
 export function validateProject(project) {
   if (!project || project.schema !== 1 || !Array.isArray(project.hosts)) throw new Error('invalid project');
   if (project.hosts.length > 1024) throw new Error('too many hosts');
   for (const h of project.hosts) {
-    if (typeof h.ip !== 'string' || !['local/intranet','public'].includes(h.scope)) throw new Error('invalid host');
+    if (typeof h.ip !== 'string' || net.isIP(h.ip) === 0 || !['local/intranet','public'].includes(h.scope)) throw new Error('invalid host');
+    if (h.authorized !== undefined && typeof h.authorized !== 'boolean') throw new Error('invalid authorization flag');
     for (const p of (h.openPorts ?? [])) {
       validatePort(p.port);
       if (!PROTOCOLS.includes(p.protocol) || !PORT_STATES.includes(p.state)) throw new Error('invalid port finding');
     }
+    for (const v of (h.vulnerabilities ?? [])) if (!VULNERABILITY_STATES.includes(v.state)) throw new Error('invalid vulnerability state');
   }
   return project;
 }
