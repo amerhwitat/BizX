@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "authority": "deterministic-simulation",
+  "worldCell": {"id":"string","seed":"uint64","lod":"integer","loaded": "boolean","biome":"string","weather":"string","population":"integer"},
+  "npc": {"id":"string","archetype":"string","faction":"string","position":["number","number","number"],"needs":{"food":"number","rest":"number","safety":"number"},"schedule":"string","memoryKeys":["string"],"combatState":"string"},
+  "ability": {"id":"string","cooldown":"number","resourceCost":"number","effects":["effect"],"tags":["string"]},
+  "effect": {"type":"damage|heal|buff|debuff|crowd_control|reputation|economy","magnitude":"number","duration":"number"},
+  "item": {"id":"string","rarity":"common|uncommon|rare|epic|legendary","weight":"number","value":"number","tags":["string"]},
+  "vehicle": {"id":"string","owner":"string","fuel":"number","durability":"number","cargoCapacity":"number","passengers":"integer","speed":"number"},
+  "faction": {"id":"string","reputation":"number","treasury":"number","territory":["string"],"policy":"string"},
+  "worldEvent": {"id":"string","kind":"war|festival|shortage|storm|discovery|migration|market_crash","startTick":"integer","duration":"integer","effects":["effect"]},
+  "quest": {"id":"string","status":"offered|active|completed|failed","conditions":["string"],"effects":["string"],"next":["string"]},
+  "saveSnapshot": {"version":"integer","tick":"integer","checksum":"sha256","state":"object"},
+  "replayEvent": {"tick":"integer","actor":"string","command":"string","payload":"object"},
+  "network": {"sequence":"uint64","serverTick":"uint64","entityId":"string","interest":"boolean","reliable":"boolean","payload":"object"}
+}
