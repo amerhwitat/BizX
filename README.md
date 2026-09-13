@@ -4,20 +4,22 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 
 ## Tycoon Business Game
 
-The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations under their respective source trees. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, and the shared payment-routing policy. Start Tycoon mode with the language's existing single entry point (`tycoon`).
+The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, the shared payment-routing policy, and the new provider-neutral monetization engine.
 
 Purchases and payment settlement are configured for the primary Ethereum receiving address `0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162`. The repository never stores private keys. Real transfers, swaps, or exchanges remain non-custodial and require explicit user/wallet authorization.
 
+## Monetization
+
+`games/monetization/` adds consumable packs, premium unlocks, subscriptions, banner/interstitial/rewarded ads, revenue events, entitlement tracking, test mode, and server-side verification hooks. Provider targets include Unity Ads/LevelPlay, AppLovin MAX, Google AdMob, Google Play Billing, Apple StoreKit/App Store Connect, and RevenueCat. Provider account IDs and secrets are injected at deployment time and are never committed.
+
+- Configuration: `games/monetization/monetization.json`
+- Platform links: `games/monetization/PLATFORM_LINKS.md`
+- Integration guide: `games/monetization/README.md`
+- Payment configuration: `games/payment-config/`
+
 ## Free world maps, audio and VFX
 
-`game-assets/` contains a researched free-asset catalog and machine-readable manifest. The replacement for generated artwork uses CC0/public-domain sources wherever possible, including Poly Haven for realistic PBR/HDRI/3D environments, Kenney/OpenGameArt for nostalgic maps and tiles, and CC0 sound/VFX collections for gameplay feedback. Final game-specific maps are assembled from licensed building blocks rather than copying copyrighted complete maps.
-
-- Catalog: `game-assets/FREE_ASSET_CATALOG.md`
-- Manifest: `game-assets/asset-manifest.json`
-- Realistic families: alpine, desert, Mediterranean, forest, tropical, coast, island, river valley, mountain, volcanic, snowy, grassland, farmland, industrial city, modern city and harbor.
-- Nostalgic families: ancient/ruins, fantasy, space colony and retro RPG, with minimap/cartography variants.
-- Audio layers: UI, footsteps, terrain, weather, commerce, machinery, combat and ambient world loops.
-- VFX layers: particles, impacts, fire, water, portals, beams, weather, environmental and retro effects.
+`game-assets/` contains a researched free-asset catalog and machine-readable manifest. The replacement for generated artwork uses CC0/public-domain sources wherever possible, including Poly Haven for realistic PBR/HDRI/3D environments, Kenney/OpenGameArt for nostalgic maps and tiles, and CC0 sound/VFX collections for gameplay feedback.
 
 ## Source-code citation index
 
@@ -35,8 +37,8 @@ Purchases and payment settlement are configured for the primary Ethereum receivi
 | Mobile Kotlin | [mobile/kotlin/](mobile/kotlin/) |
 | Mobile Flutter | [mobile/flutter/](mobile/flutter/) |
 | P2P/presence policy | [network/](network/) |
-| Client/server/host networking | [network/ClientServerNetwork.md](network/ClientServerNetwork.md) |
 | Payment configuration | [games/payment-config/](games/payment-config/) |
+| Monetization | [games/monetization/](games/monetization/) |
 | Node.js | [nodejs/](nodejs/) |
 | Java | [java/](java/) |
 | Python | [python/](python/) |
@@ -44,38 +46,3 @@ Purchases and payment settlement are configured for the primary Ethereum receivi
 | TypeScript | [typescript/](typescript/) |
 | Apple/Swift | [apple/](apple/) |
 | Documentation | [docs/](docs/) |
-
-## Mobile game hub
-
-The starting menu includes Texas Hold’em Poker, Blackjack, a Classic Card Suite (Klondike, FreeCell, Hearts, Spades, Crazy Eights and War), and an original T-Rex Runner alongside the existing 2D/3D/4D worlds, wallet, saves, hall of fame, store and peer-presence features.
-
-## Artwork and game flow
-
-Original vector artwork is stored under `mobile/flutter/assets/art/`. External free world/audio/VFX sources are cataloged under `game-assets/`. Game flow and catalog metadata live in `game-store/storyboards/card-games-and-trex.json`. Card rendering is data-driven from a standard deck model.
-
-## Saves, backups and wallets
-
-Game saves and snapshots are separated from wallet secrets. Recovery phrases/private keys must remain in platform secure storage or a user-controlled wallet provider and never enter logs, screenshots, save files, telemetry or P2P traffic.
-
-## P2P, presence and client/server networking
-
-`network/PeerPresencePolicy.md` defines consent-based peer presence. `network/ClientServerNetwork.md` adds client, server, host and hybrid operation alongside P2P. Users configure networking from the existing application, choose a nickname and avatar, and can upload a local PNG/JPEG/WebP avatar when built-in choices are unavailable. Host mode runs a local client against the embedded server so the host follows the same routing and authorization path as remote users.
-
-## Public release
-
-`docs/index.md` is the public project landing page source and is suitable for GitHub Pages. A workflow is included under `.github/workflows/publish-docs.yml`; enabling GitHub Pages for the repository will publish the documentation site.
-
-## External documentation citations
-
-- Flutter Games: https://flutter.dev/games
-- Flutter Games Toolkit: https://docs.flutter.dev/resources/games-toolkit
-- Flame: https://github.com/flame-engine/flame
-- Kotlin Multiplatform: https://kotlinlang.org/docs/multiplatform.html
-- Texas Hold’em rules: https://bicyclecards.com/how-to-play/texas-holdem
-- Blackjack rules: https://bicyclecards.com/how-to-play/blackjack/
-- Tether WDK: https://wdk.tether.io/
-- WalletConnect Specifications: https://github.com/WalletConnect/walletconnect-specs
-- Wallet Standard: https://github.com/wallet-standard/wallet-standard
-- OpenGameArt: https://opengameart.org/
-- Poly Haven license: https://polyhaven.com/license
-- Poly Haven API: https://api.polyhaven.com/
