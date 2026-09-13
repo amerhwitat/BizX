@@ -1,0 +1,17 @@
+name: InternetScanner Node validation
+on:
+  push:
+    paths: ['InternetScanner/nodejs/**']
+  pull_request:
+    paths: ['InternetScanner/nodejs/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test InternetScanner/nodejs/test/*.test.mjs
+      - run: node --check InternetScanner/nodejs/src/server.mjs
+      - run: node --check InternetScanner/nodejs/src/probes.mjs

@@ -1,0 +1,13 @@
+const $=id=>document.getElementById(id); let latest={scans:[]};
+const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function render(){
+  const scan=latest.scans.at(-1); const hosts=scan?.hosts??[];
+  $('hosts').innerHTML=hosts.map(h=>`<tr><td>${escapeHtml(h.ip)}</td><td>${escapeHtml(h.scope)}</td><td>${escapeHtml(h.reachable??'unknown')}</td><td>${(h.openPorts??[]).map(p=>`${escapeHtml(p.port)}/${escapeHtml(p.protocol)}:${escapeHtml(p.state)}`).join(', ')}</td></tr>`).join('');
+  $('events').textContent=(scan?.events??[]).map(e=>`${e.at??''} ${e.type}${e.ip?` ${e.ip}`:''}${e.reason?` ${e.reason}`:''}`).join('\n');
+  $('map').innerHTML=hosts.map((h,i)=>`<div class="node" style="left:${8+(i*137)%82}%;top:${12+(i*71)%70}%">${escapeHtml(h.ip)}</div>`).join('');
+}
+async function refresh(){const r=await fetch('/api/state'); if(!r.ok)throw new Error('state request failed'); latest=await r.json(); render();}
+$('start').onclick=async()=>{try{const targets=$('targets').value.split(',').map(s=>s.trim()).filter(Boolean); const ports=$('ports').value.split(',').map(Number).filter(n=>n>0&&n<65536); const protocols=[$('tcp').checked?'tcp':null,$('udp').checked?'udp':null].filter(Boolean); if(!protocols.length)throw new Error('select TCP or UDP'); await fetch('/api/scan/start',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({targets,ports,protocols})}); await refresh();}catch(err){alert(err.message)}};
+$('stop').onclick=async()=>{const scan=latest.scans.at(-1); if(scan) await fetch(`/api/scan/${encodeURIComponent(scan.id)}/cancel`,{method:'POST'}); await refresh();};
+$('export').onclick=async()=>{const scan=latest.scans.at(-1); if(!scan)return; const r=await fetch('/api/export/json',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({project:{schema:1,hosts:scan.hosts}})}); if(!r.ok){alert('Export failed');return;} const blob=await r.blob(); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='internetscanner-project.json'; a.click(); URL.revokeObjectURL(a.href);};
+$('import').onchange=async e=>{const f=e.target.files[0]; if(!f)return; try{const r=await fetch('/api/import',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({text:await f.text()})}); const data=await r.json(); if(!r.ok)throw new Error(data.error||'Invalid project'); latest={scans:[{id:'imported',state:'completed',hosts:data.project.hosts??[],events:[]}]}; render();}catch(err){alert('Invalid project: '+err.message)}finally{e.target.value=''}}; setInterval(()=>refresh().catch(()=>{}),1000); refresh().catch(err=>console.error(err));
