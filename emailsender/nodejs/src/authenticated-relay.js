@@ -34,8 +34,7 @@ function lineReader(socket) {
   const queue = [];
   const waiters = [];
   let failure = null;
-  socket.setEncoding('utf8');
-  socket.on('data', chunk => {
+  const onData = chunk => {
     buffer += chunk;
     while (true) {
       const index = buffer.indexOf('\r\n');
@@ -44,25 +43,34 @@ function lineReader(socket) {
       buffer = buffer.slice(index + 2);
     }
     while (queue.length && waiters.length) waiters.shift().resolve(queue.shift());
-  });
-  socket.on('error', error => {
+  };
+  const onError = error => {
     failure = error;
     while (waiters.length) waiters.shift().reject(error);
-  });
-  return () => {
-    if (queue.length) return Promise.resolve(queue.shift());
-    if (failure) return Promise.reject(failure);
-    return new Promise((resolve, reject) => waiters.push({ resolve, reject }));
+  };
+  socket.setEncoding('utf8');
+  socket.on('data', onData);
+  socket.on('error', onError);
+  return {
+    next() {
+      if (queue.length) return Promise.resolve(queue.shift());
+      if (failure) return Promise.reject(failure);
+      return new Promise((resolve, reject) => waiters.push({ resolve, reject }));
+    },
+    close() {
+      socket.off('data', onData);
+      socket.off('error', onError);
+    }
   };
 }
 
-async function response(nextLine) {
+async function response(reader) {
   const lines = [];
-  let line = await nextLine();
+  let line = await reader.next();
   lines.push(line);
   const code = Number(line.slice(0, 3));
   while (line[3] === '-') {
-    line = await nextLine();
+    line = await reader.next();
     lines.push(line);
   }
   if (!Number.isInteger(code) || code < 200 || code >= 400) {
@@ -71,9 +79,9 @@ async function response(nextLine) {
   return { code, lines };
 }
 
-async function command(socket, nextLine, value, expected = null) {
+async function command(socket, reader, value, expected = null) {
   socket.write(`${value}\r\n`);
-  const result = await response(nextLine);
+  const result = await response(reader);
   if (expected && result.code !== expected) throw new Error(`Unexpected SMTP response ${result.code}`);
   return result;
 }
@@ -95,6 +103,7 @@ function connectTls(host, port) {
 }
 
 function upgradeToTls(socket, host) {
+  socket.setEncoding(null);
   return new Promise((resolve, reject) => {
     const secureSocket = tls.connect({ socket, host, servername: host, rejectUnauthorized: true });
     secureSocket.once('secureConnect', () => resolve(secureSocket));
@@ -152,28 +161,30 @@ export function createAuthenticatedRelayTransport({
       const from = typeof envelope.from === 'object' ? envelope.from.email : envelope.from;
       transport.assertSender(from);
       let socket = security === 'tls' ? await connectTls(config.host, config.port) : await connectPlain(config.host, config.port);
+      let reader = lineReader(socket);
       try {
-        let nextLine = lineReader(socket);
-        await response(nextLine);
+        await response(reader);
         const ehloName = cleanAddress(username).split('@')[0];
-        await command(socket, nextLine, `EHLO ${ehloName}`);
+        await command(socket, reader, `EHLO ${ehloName}`);
         if (security === 'starttls') {
-          await command(socket, nextLine, 'STARTTLS', 220);
+          await command(socket, reader, 'STARTTLS', 220);
+          reader.close();
           socket = await upgradeToTls(socket, config.host);
-          nextLine = lineReader(socket);
-          await command(socket, nextLine, `EHLO ${ehloName}`);
+          reader = lineReader(socket);
+          await command(socket, reader, `EHLO ${ehloName}`);
         }
         const auth = Buffer.from(`\u0000${username}\u0000${password}`).toString('base64');
-        await command(socket, nextLine, `AUTH PLAIN ${auth}`);
-        await command(socket, nextLine, `MAIL FROM:<${cleanAddress(from)}>`);
-        await command(socket, nextLine, `RCPT TO:<${cleanAddress(envelope.to)}>`);
+        await command(socket, reader, `AUTH PLAIN ${auth}`);
+        await command(socket, reader, `MAIL FROM:<${cleanAddress(from)}>`);
+        await command(socket, reader, `RCPT TO:<${cleanAddress(envelope.to)}>`);
         socket.write('DATA\r\n');
-        await response(nextLine);
+        await response(reader);
         socket.write(`${buildMessage(envelope)}.\r\n`);
-        await response(nextLine);
-        await command(socket, nextLine, 'QUIT');
+        await response(reader);
+        await command(socket, reader, 'QUIT');
         return { ok: true, mode: 'smtp-relay', relay: config.id, email: envelope.to, from };
       } finally {
+        reader.close();
         socket.end();
       }
     }
