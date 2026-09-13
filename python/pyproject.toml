@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "bizx"
-version = "1.0.0"
-description = "Python implementation of BizX business services and integrations"
+version = "1.1.0"
+description = "Unified Python implementation of the BizX game platform, networking, 3D, assets, crypto and services"
 requires-python = ">=3.10"
 
 [project.scripts]
-bizx = "bizx.cli:main"
+bizx = "bizx.unified:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
