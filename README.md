@@ -2,6 +2,12 @@
 
 BizX is the core business/application repository for the BizX/BizXtreme platform.
 
+## Tycoon Business Game
+
+The cross-language Tycoon runtime is available in the Node.js, Java 17 and Python implementations under their respective source trees. It combines business acquisition, operating revenue/costs, turn-based progression, snapshots, and the shared payment-routing policy. Start Tycoon mode with the language's existing single entry point (`tycoon`).
+
+Purchases and payment settlement are configured for the primary Ethereum receiving address `0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162`. The repository never stores private keys. Real transfers, swaps, or exchanges remain non-custodial and require explicit user/wallet authorization.
+
 ## Source-code citation index
 
 | Area | Source |
@@ -18,6 +24,7 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 | Mobile Flutter | [mobile/flutter/](mobile/flutter/) |
 | P2P/presence policy | [network/](network/) |
 | Client/server/host networking | [network/ClientServerNetwork.md](network/ClientServerNetwork.md) |
+| Payment configuration | [games/payment-config/](games/payment-config/) |
 | Node.js | [nodejs/](nodejs/) |
 | Java | [java/](java/) |
 | Python | [python/](python/) |
@@ -28,7 +35,7 @@ BizX is the core business/application repository for the BizX/BizXtreme platform
 
 ## Mobile game hub
 
-The starting menu now includes Texas Hold’em Poker, Blackjack, a Classic Card Suite (Klondike, FreeCell, Hearts, Spades, Crazy Eights and War), and an original T-Rex Runner alongside the existing 2D/3D/4D worlds, wallet, saves, hall of fame, store and peer-presence features.
+The starting menu includes Texas Hold’em Poker, Blackjack, a Classic Card Suite (Klondike, FreeCell, Hearts, Spades, Crazy Eights and War), and an original T-Rex Runner alongside the existing 2D/3D/4D worlds, wallet, saves, hall of fame, store and peer-presence features.
 
 ## Artwork and game flow
 
