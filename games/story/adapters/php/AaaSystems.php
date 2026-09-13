@@ -1,0 +1,3 @@
+<?php
+namespace BizX\Game;
+final class AaaSystems { public int $tick=0; public array $npcs=[],$prices=[]; public function tickOnce():void{$this->tick++;foreach($this->npcs as &$n){$n['food']=max(0,$n['food']-.005);$n['rest']=max(0,$n['rest']-.003);$n['state']=$n['safety']<.25?'flee':($n['food']<.25?'seek_food':($n['rest']<.2?'sleep':'work'));}} public function market(string $good,float $supply,float $demand):float{$p=max(.01,($demand+1)/($supply+1));return $this->prices[$good]=$p;} public function resolveAbility(int $base,int $defense,int $roll):int{return $roll+5<$defense?0:$base*($roll===20?2:1);} }
