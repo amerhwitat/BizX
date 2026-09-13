@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BizX EmailSender</title><style>body{margin:0;font:14px system-ui;background:#111;color:#eee}header{padding:12px 16px;background:#1b1b1b}main{padding:16px 16px 190px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}textarea,input{width:100%;box-sizing:border-box;background:#181818;color:#eee;border:1px solid #444;padding:10px}button{padding:10px 14px;margin:6px 4px 6px 0}.card{border:1px solid #333;padding:12px;border-radius:8px}.log{position:fixed;left:0;right:0;bottom:0;height:155px;background:#050505;border-top:2px solid #444;padding:10px;box-sizing:border-box}.log pre{margin:0;height:110px;overflow:auto;white-space:pre-wrap}.contact{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #292929}@media(max-width:700px){.grid{grid-template-columns:1fr}button{min-width:44px;min-height:44px}}</style></head>
+<body><header><strong>BizX EmailSender</strong> — Games, OS, and Other topics</header><main>
+<div class="grid"><section class="card"><h2>Research</h2><input id="topics" value="game development, operating systems, open source, BizX"><button id="research">Research public sources</button><p>Discovered addresses enter the review queue. Discovery alone never authorizes sending.</p></section>
+<section class="card"><h2>Message</h2><textarea id="message" rows="9">Games, OS, and Other topics
+
+Hello,
+
+I am validating open-source repositories covering games, operating systems, and related software topics. I would appreciate your review if relevant to your work.
+
+Repository: https://github.com/amerhwitat/BizX
+
+Please share correctness, compatibility, build, documentation, or gameplay feedback.
+
+If you do not want further messages from this project, reply with “unsubscribe”.
+
+Thank you.</textarea><button id="send">Send approved recipient</button></section></div>
+<section class="card"><h2>Review queue</h2><div id="queue">No contacts yet.</div></section></main>
+<div class="log"><strong>Sending / research log</strong><pre id="log"></pre></div>
+<script type="module">const q=[];const log=m=>{document.querySelector('#log').textContent+=new Date().toLocaleTimeString()+' '+m+'\n';document.querySelector('#log').scrollTop=999999};
+const render=()=>{const el=document.querySelector('#queue');el.innerHTML=q.length?q.map((c,i)=>`<div class="contact"><input type="checkbox" data-i="${i}" ${c.approved?'checked':''}><span>${c.email}</span><small>${c.topic} · ${c.sourceUrl||'manual'}</small></div>`).join(''):'No contacts yet.';el.querySelectorAll('input').forEach(x=>x.onchange=()=>{q[+x.dataset.i].approved=x.checked;q[+x.dataset.i].status=x.checked?'approved':'needs-review'})};
+document.querySelector('#research').onclick=()=>{log('Research requested for: '+document.querySelector('#topics').value);log('Connect a configured search provider/backend to perform live web discovery.');};
+document.querySelector('#send').onclick=()=>{const c=q.find(x=>x.approved&&!x.sent);if(!c){log('No approved recipient selected; nothing sent.');return}log('[DRY-RUN] '+c.email+' — explicit send adapter required; review and authorize before production send.');c.sent=true;render()};render();</script></body></html>
