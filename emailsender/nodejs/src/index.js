@@ -1,6 +1,7 @@
 import { createInterface } from 'node:readline';
 import { readFileSync, existsSync } from 'node:fs';
 import { request } from 'node:https';
+import { createProtonSmtpTransport } from './proton-smtp.js';
 
 export const MESSAGE_HEADER = 'Games, OS, and Other topics';
 export const FROM_EMAIL = 'amer.hwitat@proton.me';
@@ -13,6 +14,8 @@ export const SMTP_CONFIG = Object.freeze({
   usernameEnv: 'EMAILSENDER_SMTP_USERNAME',
   passwordEnv: 'EMAILSENDER_SMTP_TOKEN'
 });
+
+export { createProtonSmtpTransport };
 
 export function extractEmails(text) {
   const matches = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) ?? [];
