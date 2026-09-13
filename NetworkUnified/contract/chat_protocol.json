@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "transport": "TCP",
+  "encoding": "UTF-8 JSON",
+  "modes": ["peer-to-peer", "client-server"],
+  "messageTypes": ["hello", "chat", "ack", "error"],
+  "limits": {"maxMessageBytes": 65536},
+  "security": {"applicationTokenRequired": true, "publicDiscovery": false, "unsolicitedConnections": false}
+}
