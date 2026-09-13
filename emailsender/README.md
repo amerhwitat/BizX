@@ -8,11 +8,11 @@ EmailSender is a repository-validation outreach assistant for BizX. It researche
 - **Display name:** `Amer Hwitat`
 - **Message header:** `Games, OS, and Other topics`
 
-Proton documents SMTP submission for supported applications using `smtp.protonmail.ch`, port `587`, STARTTLS, and a dedicated SMTP token rather than the normal mailbox password. Keep that token outside Git and inject it through the runtime environment. See Proton's official SMTP submission documentation: https://proton.me/support/smtp-submission
+Proton documents SMTP submission for supported applications using `smtp.protonmail.ch`, port `587`, STARTTLS, and a dedicated SMTP token rather than the normal mailbox password. Keep that token outside Git and inject it through the runtime environment. Official documentation: https://proton.me/support/smtp-submission
 
 ## Important sending policy
 
-EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender must have permission to send. This protects recipients and the sender from spam/abuse and supports applicable consent, opt-out, and sender-identification requirements.
+EmailSender **does not automatically send an unsolicited message merely because an address was discovered**. Discovery adds a contact to a review queue. A human must approve the recipient and the send action, and the configured sender must have permission to send.
 
 ## Message header
 
@@ -30,7 +30,7 @@ The message explains that the recipient is being asked to validate public reposi
 - Domain and address de-duplication.
 - Blocklist and suppression-list support.
 - Human approval queue before sending.
-- Proton SMTP adapter with environment-only credentials.
+- Native Node.js Proton SMTP adapter using STARTTLS on port 587.
 - Dry-run mode enabled by default.
 - Per-recipient send log shown in the application log panel.
 - Export/import of contact review queues.
@@ -41,6 +41,8 @@ The message explains that the recipient is being asked to validate public reposi
 
 `config/email-config.json` contains the non-secret sender and SMTP settings. `.env.example` documents the runtime variables. Never commit the actual SMTP token.
 
+Proton's SMTP token is a dedicated credential; do not use the normal Proton mailbox/login password for SMTP. See https://proton.me/support/smtp-submission
+
 ## Run
 
 Node.js:
@@ -48,6 +50,26 @@ Node.js:
 ```bash
 node nodejs/src/index.js
 ```
+
+The CLI remains discovery/review mode and does not send automatically.
+
+### Reviewed SMTP send
+
+After a human has approved a contact, a calling application can construct the transport from runtime-only credentials:
+
+```js
+import { createProtonSmtpTransport, EmailSender } from './src/index.js';
+
+const transport = createProtonSmtpTransport({
+  username: process.env.EMAILSENDER_SMTP_USERNAME,
+  token: process.env.EMAILSENDER_SMTP_TOKEN
+});
+
+const sender = new EmailSender({ dryRun: false, requireHumanApproval: true });
+await sender.send(approvedContact, message, transport);
+```
+
+The SMTP token is held only in memory by the transport and is excluded from its JSON representation and string description.
 
 ## Recommended workflow
 
@@ -59,3 +81,4 @@ node nodejs/src/index.js
 6. Send individually or in a small reviewed batch.
 7. Monitor delivery/rejection results in the bottom log.
 8. Honor opt-out requests immediately and add them to the suppression list.
+9. Keep SMTP credentials in the runtime environment or deployment secret store.
