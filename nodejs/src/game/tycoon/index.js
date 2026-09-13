@@ -1,6 +1,7 @@
-import { MonetizationEngine } from '../../monetization/index.js';
+import { MonetizationEngine, PAYMENT_ROUTING } from '../../monetization/index.js';
 
-const PRIMARY_ETH_ADDRESS = '0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162';
+const PRIMARY_ETH_ADDRESS = PAYMENT_ROUTING.primaryEthAddress;
+const PRIMARY_PAYPAL_ACCOUNT = PAYMENT_ROUTING.primaryPayPalAccount;
 const DEFAULT_BUSINESSES = Object.freeze({
   bakery: { name: 'Bakery', revenue: 900, costs: 300 },
   market: { name: 'Market', revenue: 1500, costs: 650 },
@@ -20,7 +21,7 @@ export class TycoonGame {
     if (!definition) return { ok: false, reason: 'unknown-business' };
     this.cash -= price;
     this.businesses[type] = (this.businesses[type] ?? 0) + 1;
-    return { ok: true, business: type, payment: { asset: 'ETH', recipient: PRIMARY_ETH_ADDRESS, amount: price, status: 'wallet-authorization-required' } };
+    return { ok: true, business: type, payment: { asset: 'ETH', recipient: PRIMARY_ETH_ADDRESS, paypalAccount: PRIMARY_PAYPAL_ACCOUNT, amount: price, status: 'wallet-authorization-required' } };
   }
   purchasePack(productId, provider = 'store') { return this.monetization.purchase(productId, provider); }
   recordAd(placement, provider = 'unityAds') { return this.monetization.recordAdImpression(placement, provider); }
@@ -40,4 +41,4 @@ export class TycoonGame {
   }
   snapshot() { return { turn: this.turn, cash: this.cash, businesses: { ...this.businesses }, monetization: this.monetization.snapshot() }; }
 }
-export { PRIMARY_ETH_ADDRESS, DEFAULT_BUSINESSES };
+export { PRIMARY_ETH_ADDRESS, PRIMARY_PAYPAL_ACCOUNT, DEFAULT_BUSINESSES };
