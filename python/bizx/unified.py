@@ -11,19 +11,41 @@ from .game.tycoon import TycoonGame
 from .monetization import MonetizationEngine
 from .payments import PaymentService
 from .wallet import WalletProvider
-from .modules import AssetBrowserService, CryptoService, EmailService, InternetScanner, MobileState, NetworkService, Scene3D
+from .modules import (
+    AssetBrowserService,
+    CryptoService,
+    EmailService,
+    GameAssetService,
+    GameLauncherService,
+    GameStoreService,
+    InternetScanner,
+    MobileState,
+    NetworkService,
+    NetworkUnifiedService,
+    RenderingService,
+    Scene3D,
+    ScriptInventory,
+    WebService,
+)
 
 
 class BizXRuntime:
-    """Single Python facade combining the repository's Python game, network, 3D and service modules."""
+    """Single Python application facade for BizX's consolidated feature tree."""
 
     def __init__(self) -> None:
         self.api = BizXApi()
         self.modules: dict[str, Any] = {
             "game": {"progression": ProgressionProfile, "tycoon": TycoonGame},
             "network": NetworkService(),
+            "network_unified": NetworkUnifiedService(),
             "scanner": InternetScanner(),
             "render3d": Scene3D(),
+            "rendering": RenderingService(),
+            "game_assets": GameAssetService(),
+            "game_store": GameStoreService(),
+            "launcher": GameLauncherService(),
+            "web": WebService(),
+            "scripts": ScriptInventory(),
             "assets": AssetBrowserService(),
             "crypto": CryptoService(),
             "email": EmailService(),
@@ -35,7 +57,12 @@ class BizXRuntime:
         }
 
     def health(self) -> dict[str, Any]:
-        return {"status": "ok", "implementation": "python", "modules": sorted(self.modules), "api": self.api.health()}
+        return {
+            "status": "ok",
+            "implementation": "python",
+            "modules": sorted(self.modules),
+            "api": self.api.health(),
+        }
 
     def start(self, mode: str = "default") -> int:
         print("BizX unified Python runtime starting")
