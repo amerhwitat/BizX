@@ -2,20 +2,32 @@
 
 Python 3.10+ implementation of BizX business services and integration boundaries.
 
-## Single-point game entry
+## GUI-first entry
 
-The canonical Python launcher is `bizx.game_launcher.main()`. The package module entry `python -m bizx` delegates to the same function, providing one application start path for Python consumers.
+The canonical interactive entry point is now the native Tkinter application:
 
 ```bash
 cd python
 python -m bizx
 ```
 
-The launcher is also directly executable as a module file when the package is available on `PYTHONPATH`:
+The GUI provides mode selection, start/stop-safe interaction, status and live diagnostics without blocking the UI thread. The reusable engine remains available through `bizx.game_launcher.main()` for tests, automation and headless workflows.
+
+Direct headless engine use:
 
 ```bash
 python -m bizx.game_launcher
 ```
+
+## Requirements
+
+Install the local runtime declaration with:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+Tkinter is supplied by supported desktop Python distributions; Linux users may need their distribution's Tk package.
 
 ## Test
 
@@ -31,8 +43,9 @@ python -m unittest discover -s tests
 - `bizx/payments` — payment lifecycle model
 - `bizx/api` — API boundary
 - `bizx/cli` — command-line utilities
-- `bizx/game_launcher.py` — single-point game/application entry
-- `bizx/__main__.py` — package entry delegating to the launcher
+- `bizx/game_launcher.py` — reusable headless engine entry
+- `bizx/gui.py` — native GUI application entry
+- `bizx/__main__.py` — GUI-first package entry
 - `tests` — standard-library unit tests
 
-Python source is isolated under this directory and does not mix with Node.js, browser JavaScript, TypeScript, Java, or native source. See `../docs/GAME_ENTRYPOINTS.md` for the cross-language launcher contract.
+Python source remains isolated under this directory and does not mix with other language implementations.
