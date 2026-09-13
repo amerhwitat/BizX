@@ -1,0 +1,24 @@
+{
+  "research": {
+    "topics": ["game development", "operating systems", "open source", "BizX", "Chimera II OS"],
+    "maxPagesPerTopic": 20,
+    "requestTimeoutMs": 10000,
+    "respectRobotsTxt": true
+  },
+  "sending": {
+    "dryRun": true,
+    "requireHumanApproval": true,
+    "requireConsentOrPermittedContactBasis": true,
+    "rateLimitMs": 3000,
+    "subject": "Repository validation request",
+    "header": "Games, OS, and Other topics"
+  },
+  "smtp": {
+    "hostEnv": "EMAILSENDER_SMTP_HOST",
+    "portEnv": "EMAILSENDER_SMTP_PORT",
+    "userEnv": "EMAILSENDER_SMTP_USER",
+    "passwordEnv": "EMAILSENDER_SMTP_PASSWORD",
+    "fromEnv": "EMAILSENDER_FROM"
+  },
+  "suppressionFile": "data/suppression.json"
+}
