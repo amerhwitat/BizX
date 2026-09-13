@@ -1,0 +1,20 @@
+{
+  "from": {
+    "name": "Amer Hwitat",
+    "email": "amer.hwitat@proton.me"
+  },
+  "smtp": {
+    "host": "smtp.protonmail.ch",
+    "port": 587,
+    "secure": false,
+    "requireStartTls": true,
+    "usernameEnv": "EMAILSENDER_SMTP_USERNAME",
+    "passwordEnv": "EMAILSENDER_SMTP_TOKEN"
+  },
+  "defaults": {
+    "subject": "Repository validation request",
+    "messageHeader": "Games, OS, and Other topics",
+    "dryRun": true,
+    "requireHumanApproval": true
+  }
+}
