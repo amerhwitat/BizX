@@ -2,6 +2,7 @@ import { createInterface } from 'node:readline';
 import { readFileSync, existsSync } from 'node:fs';
 import { request } from 'node:https';
 import { createProtonSmtpTransport } from './proton-smtp.js';
+import { createAuthenticatedRelayTransport } from './authenticated-relay.js';
 
 export const MESSAGE_HEADER = 'Games, OS, and Other topics';
 export const FROM_EMAIL = 'amer.hwitat@proton.me';
@@ -16,7 +17,23 @@ export const RELAY_POLICY = Object.freeze({
   requireAuthorizedRelay: true,
   privacyModeIsPseudonymous: true
 });
-export { createProtonSmtpTransport };
+export { createProtonSmtpTransport, createAuthenticatedRelayTransport };
+
+export function createRelayFromEnvironment({ sender = FROM_EMAIL } = {}) {
+  const host = process.env.EMAILSENDER_RELAY_HOST;
+  const username = process.env.EMAILSENDER_RELAY_USERNAME;
+  const password = process.env.EMAILSENDER_RELAY_PASSWORD;
+  if (!host || !username || !password) throw new Error('Authenticated relay environment is incomplete');
+  return createAuthenticatedRelayTransport({
+    id: 'custom-authenticated-relay',
+    host,
+    port: Number(process.env.EMAILSENDER_RELAY_PORT || 587),
+    security: process.env.EMAILSENDER_RELAY_SECURITY || 'starttls',
+    username,
+    password,
+    authorizedSender: sender
+  });
+}
 
 export function extractEmails(text) {
   const matches = text.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) ?? [];
