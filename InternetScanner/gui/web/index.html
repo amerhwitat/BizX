@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InternetScanner Explorer</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><h1>InternetScanner Explorer</h1><span id="policy">AUTHORIZED SCAN MODE</span></header>
+<main>
+<section class="controls"><label>Scope <select id="scope"><option>local</option><option>intranet</option><option>authorized-public</option></select></label><label>Targets/CIDR <input id="targets" placeholder="192.168.1.0/24"></label><label>Ports <input id="ports" value="T:22,80,443 U:53,123"></label><label><input type="checkbox" id="ipv4" checked> IPv4</label><label><input type="checkbox" id="ipv6" checked> IPv6</label><button id="start">Start scan</button><button id="stop">Stop</button><button id="import">Import</button><button id="export">Export</button><input id="file" type="file" accept=".json,.csv,.xml" hidden></section>
+<section class="grid"><div><h2>Live network map</h2><canvas id="map" width="900" height="500"></canvas></div><aside><h2>Selected host</h2><pre id="details">Select a host from the map or results.</pre></aside></section>
+<section><h2>Hosts</h2><table><thead><tr><th>IP</th><th>Scope</th><th>DNS</th><th>Status</th><th>TCP</th><th>UDP</th><th>Risk</th></tr></thead><tbody id="hosts"></tbody></table></section>
+<section><h2>Live events</h2><pre id="events"></pre></section>
+</main><script src="app.js"></script></body></html>
