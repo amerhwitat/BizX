@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MODE="${1:-all}"
 LOG_DIR="${ROOT}/build/logs"
 mkdir -p "$LOG_DIR"
-exec > >(tee -a "$LOG_DIR/build.log") 2>&1
+LOG="$LOG_DIR/build.log"
+: > "$LOG"
+FAILURES=0
+run(){ echo "[build] $*" | tee -a "$LOG"; "$@" >>"$LOG" 2>&1 || { echo "[FAIL] $*" | tee -a "$LOG"; FAILURES=$((FAILURES+1)); }; }
 
-run(){ echo "[build] $*"; "$@"; }
-
-build_node(){ local d="$1"; [[ -f "$d/package.json" ]] || return 0; echo "== Node: $d =="; (cd "$d"; [[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || npm install; npm run build --if-present; npm test --if-present); }
-build_python(){ local d="$1"; [[ -f "$d/pyproject.toml" || -f "$d/requirements.txt" || -f "$d/setup.py" ]] || return 0; echo "== Python: $d =="; (cd "$d"; python -m pip install --upgrade pip; if [[ -f pyproject.toml ]]; then python -m pip install -e .; fi; [[ -f requirements.txt ]] && python -m pip install -r requirements.txt; [[ -f pyproject.toml ]] && python -m pytest || true); }
-build_rust(){ local d="$1"; [[ -f "$d/Cargo.toml" ]] || return 0; echo "== Rust: $d =="; (cd "$d"; cargo fetch; cargo build --workspace; cargo test --workspace); }
-build_go(){ local d="$1"; [[ -f "$d/go.mod" ]] || return 0; echo "== Go: $d =="; (cd "$d"; go mod download; go build ./...; go test ./...); }
-build_java(){ local d="$1"; echo "== JVM: $d =="; if [[ -f "$d/mvnw" ]]; then (cd "$d"; ./mvnw -B test package); elif [[ -f "$d/pom.xml" ]]; then (cd "$d"; mvn -B test package); elif [[ -f "$d/gradlew" ]]; then (cd "$d"; ./gradlew build); elif [[ -f "$d/build.gradle" || -f "$d/build.gradle.kts" ]]; then (cd "$d"; gradle build); fi; }
-build_dotnet(){ local d="$1"; [[ -f "$d/*.sln" || -f "$d/*.csproj" ]] 2>/dev/null || return 0; echo "== .NET: $d =="; (cd "$d"; dotnet restore; dotnet build --no-restore; dotnet test --no-build || true); }
-build_cmake(){ local d="$1"; [[ -f "$d/CMakeLists.txt" ]] || return 0; echo "== C/C++: $d =="; (cd "$d"; if [[ -f CMakePresets.json ]]; then cmake --preset default 2>/dev/null || cmake -S . -B build; else cmake -S . -B build; fi; cmake --build build --parallel); }
-
-if [[ "$MODE" != "no-install" ]]; then "$ROOT/scripts/install-deps.sh"; fi
-mapfile -t dirs < <(find "$ROOT" -type f \( -name package.json -o -name pyproject.toml -o -name Cargo.toml -o -name go.mod -o -name pom.xml -o -name build.gradle -o -name build.gradle.kts -o -name CMakeLists.txt \) -not -path '*/node_modules/*' -not -path '*/build/*' -not -path '*/.git/*' -printf '%h\n' | sort -u)
-for d in "${dirs[@]}"; do
-  [[ -f "$d/package.json" ]] && build_node "$d"
-  [[ -f "$d/pyproject.toml" || -f "$d/requirements.txt" || -f "$d/setup.py" ]] && build_python "$d"
-  [[ -f "$d/Cargo.toml" ]] && build_rust "$d"
-  [[ -f "$d/go.mod" ]] && build_go "$d"
-  [[ -f "$d/pom.xml" || -f "$d/build.gradle" || -f "$d/build.gradle.kts" || -f "$d/gradlew" ]] && build_java "$d"
-  [[ -f "$d/CMakeLists.txt" ]] && build_cmake "$d"
-done
-echo "Build orchestration complete. Logs: $LOG_DIR/build.log"
+if [[ "$MODE" != "no-install" ]]; then run "$ROOT/scripts/install-deps.sh"; fi
+while IFS= read -r -d '' f; do
+  d="$(dirname "$f")"
+  case "$(basename "$f")" in
+    package.json) echo "== Node/TypeScript: $d =="; (cd "$d"; if [[ -f package-lock.json || -f npm-shrinkwrap.json ]]; then npm ci; else npm install; fi; npm run build --if-present; npm test --if-present) || FAILURES=$((FAILURES+1)) ;;
+    pyproject.toml) echo "== Python: $d =="; (cd "$d"; python3 -m pip install -e .; python3 -m pytest) || FAILURES=$((FAILURES+1)) ;;
+    Cargo.toml) echo "== Rust: $d =="; (cd "$d"; cargo fetch; cargo build --workspace; cargo test --workspace) || FAILURES=$((FAILURES+1)) ;;
+    go.mod) echo "== Go: $d =="; (cd "$d"; go mod download; go build ./...; go test ./...) || FAILURES=$((FAILURES+1)) ;;
+    pom.xml) echo "== Java/Maven: $d =="; (cd "$d"; if [[ -x mvnw ]]; then ./mvnw -B test package; else mvn -B test package; fi) || FAILURES=$((FAILURES+1)) ;;
+    build.gradle|build.gradle.kts) echo "== Kotlin/Gradle: $d =="; (cd "$d"; if [[ -x gradlew ]]; then ./gradlew build; else gradle build; fi) || FAILURES=$((FAILURES+1)) ;;
+    CMakeLists.txt) echo "== C/C++: $d =="; (cd "$d"; if [[ -f CMakePresets.json ]] && cmake --list-presets >/dev/null 2>&1; then cmake --preset default || cmake -S . -B build; else cmake -S . -B build; fi; cmake --build build --parallel) || FAILURES=$((FAILURES+1)) ;;
+    Package.swift) echo "== Swift: $d =="; (cd "$d"; swift build; swift test) || FAILURES=$((FAILURES+1)) ;;
+    pubspec.yaml) echo "== Dart: $d =="; (cd "$d"; dart pub get; dart test) || FAILURES=$((FAILURES+1)) ;;
+    composer.json) echo "== PHP: $d =="; (cd "$d"; composer install --no-interaction --prefer-dist; [[ ! -f phpunit.xml ]] || vendor/bin/phpunit) || FAILURES=$((FAILURES+1)) ;;
+    Gemfile) echo "== Ruby: $d =="; (cd "$d"; bundle install; bundle exec rake) || FAILURES=$((FAILURES+1)) ;;
+  esac
+done < <(find "$ROOT" -type f \( -name package.json -o -name pyproject.toml -o -name Cargo.toml -o -name go.mod -o -name pom.xml -o -name build.gradle -o -name build.gradle.kts -o -name CMakeLists.txt -o -name Package.swift -o -name pubspec.yaml -o -name composer.json -o -name Gemfile \) -not -path '*/node_modules/*' -not -path '*/target/*' -not -path '*/build/*' -not -path '*/.git/*' -print0 | sort -z -u)
+echo "Build orchestration complete; failures=$FAILURES; log=$LOG"
+exit "$FAILURES"
