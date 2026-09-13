@@ -2,7 +2,7 @@ import net from 'node:net';
 import dgram from 'node:dgram';
 import { assertAuthorized } from './policy.mjs';
 
-const sleep = ms => new Promise(r => setTimeout(r, r));
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export function probeTcp(target, port, options = {}) {
   assertAuthorized(target, options.config ?? {});
