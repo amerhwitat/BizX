@@ -48,8 +48,7 @@ class BizXApp(tk.Tk):
     def start(self) -> None:
         self.start_btn.configure(state="disabled")
         self.status.set("Running…")
-        mode = self.mode.get()
-        threading.Thread(target=self._worker, args=(mode,), daemon=True).start()
+        threading.Thread(target=self._worker, args=(self.mode.get(),), daemon=True).start()
 
     def _worker(self, mode: str) -> None:
         try:
@@ -57,12 +56,12 @@ class BizXApp(tk.Tk):
             code = run_engine(mode)
             self.after(0, self.log, f"Completed with exit code {code}.")
             self.after(0, self.status.set, "Ready")
-        except Exception as exc:  # keep GUI alive and expose diagnostics
+        except Exception as exc:
             self.after(0, self.log, f"ERROR: {exc}")
             self.after(0, self.status.set, "Error")
             self.after(0, messagebox.showerror, "BizX error", str(exc))
         finally:
-            self.after(0, self.start_btn.configure, {"state": "normal"})
+            self.after(0, lambda: self.start_btn.configure(state="normal"))
 
 
 def main() -> None:
