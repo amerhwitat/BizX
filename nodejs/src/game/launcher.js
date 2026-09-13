@@ -1,6 +1,9 @@
+import { TycoonGame } from './tycoon/index.js';
+
 export function startGame(options = {}) {
   const title = options.title ?? 'BizX';
   const mode = options.mode ?? 'default';
+  if (mode === 'tycoon') return { title: 'BizX Tycoon', mode, game: new TycoonGame({ cash: options.cash ?? 10000 }), status: 'started', runtime: 'node' };
   return { title, mode, status: 'started', runtime: 'node' };
 }
 
