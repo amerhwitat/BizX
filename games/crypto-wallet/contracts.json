@@ -1,0 +1,8 @@
+{
+  "schema":"bizx.crypto-wallet.v1",
+  "network":{"ip":["IPv4","IPv6"],"transports":["TCP","UDP","HTTP","HTTPS","WebSocket"],"message":"versioned-envelope"},
+  "crypto":{"hashes":["SHA-256","SHA-512","SHA-3-256"],"mac":"HMAC","signature_provider":"pluggable"},
+  "coins":{"BTC":{"family":"UTXO","networks":["mainnet","testnet"]},"BCH":{"family":"UTXO"},"LTC":{"family":"UTXO"},"DOGE":{"family":"UTXO"},"ETH":{"family":"account"},"ETC":{"family":"account"},"SOL":{"family":"account"},"ADA":{"family":"account"},"XRP":{"family":"account"},"DOT":{"family":"account"},"AVAX":{"family":"account"}},
+  "wallet":{"modes":["watch_only","provider_backed","hardware_boundary"],"private_key_export":false,"seed_logging":false,"explicit_confirmation":true},
+  "transactions":{"states":["draft","awaiting_confirmation","submitted","confirmed","failed"],"provider_required":true}
+}
