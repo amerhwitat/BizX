@@ -1,3 +1,10 @@
+import json
+from pathlib import Path
+
+_CONFIG_PATH = Path(__file__).resolve().parents[3] / "games" / "payment-config" / "payment-config.json"
+_PAYMENT_CONFIG = json.loads(_CONFIG_PATH.read_text(encoding="utf-8"))
+PAYMENT_ROUTING = _PAYMENT_CONFIG["paymentRouting"]
+
 PRODUCTS = {
     "starter_pack": {"type": "consumable", "price": 0.99},
     "builder_pack": {"type": "consumable", "price": 4.99},
@@ -5,6 +12,7 @@ PRODUCTS = {
     "vip_monthly": {"type": "subscription", "price": 4.99, "period": "month"},
 }
 AD_PLACEMENTS = {"banner_home", "interstitial_round_end", "rewarded_double_income", "rewarded_bonus_cash"}
+
 
 class MonetizationEngine:
     def __init__(self, test_mode=True):
@@ -19,7 +27,20 @@ class MonetizationEngine:
         self.events.append({"type": "purchase", "product_id": product_id, "provider": provider, "amount": product["price"], "test_mode": self.test_mode})
         if product["type"] != "consumable":
             self.entitlements.add(product_id)
-        return {"ok": True, "product_id": product_id, "provider": provider, "amount": product["price"], "status": "verification-required"}
+        return {
+            "ok": True,
+            "product_id": product_id,
+            "provider": provider,
+            "amount": product["price"],
+            "status": "verification-required",
+            "payment_methods": {
+                "ethereum": {"asset": "ETH", "recipient": PAYMENT_ROUTING["primaryEthAddress"]},
+                "paypal": {"account": PAYMENT_ROUTING["primaryPayPalAccount"]},
+            },
+            "default_payment_method": PAYMENT_ROUTING["defaultMethod"],
+            "fallback_payment_method": PAYMENT_ROUTING["fallbackMethod"],
+            "requires_explicit_user_selection": PAYMENT_ROUTING["routingRequiresExplicitUserSelection"],
+        }
 
     def record_ad_impression(self, placement, provider):
         if placement not in AD_PLACEMENTS:
