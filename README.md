@@ -8,9 +8,23 @@ The repository provides Windows CMD/PowerShell and POSIX shell entry points that
 
 ## Flagship game framework
 
-`games/story/` now contains the original **BizX: Worlds of Commerce & Conflict** design, a cross-platform RPG/strategy game combining open-world exploration, business simulation, factions, branching quests, dialogue, combat, crafting, trading, vehicles, dynamic events and multiple endings.
+`games/story/` contains the original **BizX: Worlds of Commerce & Conflict** design, a cross-platform RPG/strategy game combining open-world exploration, business simulation, factions, branching quests, dialogue, combat, crafting, trading, vehicles, dynamic events and multiple endings.
 
-The implementation uses open-source game-development patterns as architectural inspiration without copying proprietary commercial game content. Open-source projects researched include Veloren, Godot RPG templates, AI RPG engines and Battle for Wesnoth. See `games/story/BIZX_WORLDS_OF_COMMERCE_AND_CONFLICT.md` and `games/story/GAME_FEATURE_MATRIX.md`.
+### AAA systems expansion
+
+The game framework now includes a research-driven AAA systems layer based on public/open-source architecture patterns and public engine/storefront documentation. It is an original implementation and does **not** copy proprietary commercial game code, characters, maps, trademarks or copyrighted storefront assets.
+
+- Research and visual-reference catalog: `games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md`.
+- Shared data contracts: `games/story/aaa_system_contracts.json`.
+- Deterministic systemic primitives: world cells, NPC needs/schedules, dynamic economy, abilities, vehicles, world events and simulation ticks.
+- Native/adapter implementations for Python, Node.js, Java, Kotlin, Swift, TypeScript, Unity C#, Unreal C++, Go, Rust, C++, standalone C#, Dart, PHP and Ruby.
+- Storyboard and branching quest logic remain data-driven under `games/story/storyboard.json`.
+- Visual references are documented by official source URL; screenshots are not redistributed unless their license permits it.
+- Asset imports must carry provider, creator, source URL, license and SHA-256 provenance.
+
+### Research-derived feature patterns
+
+Open-source references include Veloren, ALIS, Vitric, O3DE and Nakama. Engine references include Unreal World Partition, MassEntity, Gameplay Ability System, PCG and Online Services. Storefront patterns studied include achievements, sessions/lobbies, player-driven economies, settlements, caravans, crafting, faction systems and world events from representative Steam/Epic releases. See the catalog for source links and license boundaries.
 
 ### Story and gameplay
 
@@ -48,6 +62,8 @@ The cross-language Tycoon runtime is available in the Node.js, Java 17 and Pytho
 | Area | Source |
 |---|---|
 | Flagship game design | [games/story/](games/story/) |
+| AAA research/reference catalog | [games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md](games/story/AAA_RESEARCH_AND_VISUAL_REFERENCE_CATALOG.md) |
+| AAA system contracts | [games/story/aaa_system_contracts.json](games/story/aaa_system_contracts.json) |
 | InternetScanner | [InternetScanner/](InternetScanner/) |
 | NetworkUnified | [NetworkUnified/](NetworkUnified/) |
 | AssetBrowser | [AssetBrowser/](AssetBrowser/) |
