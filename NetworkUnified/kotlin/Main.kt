@@ -1,0 +1,3 @@
+import java.net.*
+fun scope(s:String):String=try{val a=InetAddress.getByName(s);if(a.isLoopbackAddress||a.isLinkLocalAddress||a.isSiteLocalAddress)"local/intranet" else "public"}catch(_:Exception){"invalid"}
+fun main(){val p=System.getenv("NETWORK_API_PORT")?.toIntOrNull()?:8787;println("{\"schema\":\"bizx.network.api.v1\",\"implementation\":\"kotlin\",\"port\":$p,\"endpoints\":[\"catalog\",\"health\",\"config\",\"interfaces\",\"classify\",\"authorize\",\"tcp-check\"]}");println("scope 127.0.0.1 = ${scope("127.0.0.1")}");try{Socket().use{it.connect(InetSocketAddress("127.0.0.1",p),1000);println("local API port reachable")}}catch(_:Exception){println("local API port not reachable (normal if server not running)")}}
