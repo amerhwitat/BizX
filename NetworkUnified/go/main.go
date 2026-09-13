@@ -1,0 +1,4 @@
+package main
+import("encoding/json";"fmt";"net";"os";"strconv";"time")
+func scope(s string)string{ip:=net.ParseIP(s);if ip!=nil&&(ip.IsPrivate()||ip.IsLoopback()||ip.IsLinkLocalUnicast()){return "local/intranet"};return "public"}
+func main(){p:=8787;if x,ok:=os.LookupEnv("NETWORK_API_PORT");ok{if n,e:=strconv.Atoi(x);e==nil{p=n}}; api:=map[string]any{"schema":"bizx.network.api.v1","implementation":"go","port":p,"endpoints":[]string{"catalog","health","config","interfaces","classify","authorize","tcp-check"}}; b,_:=json.MarshalIndent(api,"","  ");fmt.Println(string(b));fmt.Println("scope 127.0.0.1 =",scope("127.0.0.1"));c,e:=net.DialTimeout("tcp","127.0.0.1:8787",time.Second);if e==nil{c.Close();fmt.Println("local API port reachable")}else{fmt.Println("local API port not reachable (normal if server not running)")}}
