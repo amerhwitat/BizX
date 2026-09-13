@@ -1,3 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const CONFIG_PATH = fileURLToPath(new URL('../../../../games/payment-config/payment-config.json', import.meta.url));
+const PAYMENT_CONFIG = JSON.parse(readFileSync(CONFIG_PATH, 'utf8'));
+export const PAYMENT_ROUTING = Object.freeze(PAYMENT_CONFIG.paymentRouting);
+
 export const PRODUCTS = Object.freeze({
   starter_pack: { type: 'consumable', price: 0.99 },
   builder_pack: { type: 'consumable', price: 4.99 },
@@ -5,13 +12,6 @@ export const PRODUCTS = Object.freeze({
   vip_monthly: { type: 'subscription', price: 4.99, period: 'month' }
 });
 export const AD_PLACEMENTS = Object.freeze(['banner_home', 'interstitial_round_end', 'rewarded_double_income', 'rewarded_bonus_cash']);
-export const PAYMENT_ROUTING = Object.freeze({
-  ethereum: Object.freeze({ asset: 'ETH', recipient: '0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162' }),
-  paypal: Object.freeze({ account: 'amer.hwaitat@gmail.com' }),
-  defaultMethod: 'ethereum',
-  fallbackMethod: 'paypal',
-  requiresExplicitUserSelection: true
-});
 export class MonetizationEngine {
   constructor({ testMode = true } = {}) { this.testMode = testMode; this.events = []; this.entitlements = new Set(); }
   purchase(productId, provider = 'store') {
@@ -26,12 +26,12 @@ export class MonetizationEngine {
       amount: product.price,
       status: 'verification-required',
       paymentMethods: {
-        ethereum: { ...PAYMENT_ROUTING.ethereum },
-        paypal: { ...PAYMENT_ROUTING.paypal }
+        ethereum: { recipient: PAYMENT_ROUTING.primaryEthAddress, asset: 'ETH' },
+        paypal: { account: PAYMENT_ROUTING.primaryPayPalAccount }
       },
       defaultPaymentMethod: PAYMENT_ROUTING.defaultMethod,
       fallbackPaymentMethod: PAYMENT_ROUTING.fallbackMethod,
-      requiresExplicitUserSelection: PAYMENT_ROUTING.requiresExplicitUserSelection
+      requiresExplicitUserSelection: PAYMENT_ROUTING.routingRequiresExplicitUserSelection
     };
   }
   recordAdImpression(placement, provider) {
