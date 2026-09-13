@@ -1,0 +1,33 @@
+{
+  "schema": "bizx.genre-systems.v1",
+  "original_content_only": true,
+  "genres": {
+    "street_racing": ["vehicle_handling", "traffic", "police_pursuit", "heat", "tuning", "race_events"],
+    "open_world_sandbox": ["factions", "territories", "businesses", "wanted_state", "heists", "npc_reactions"],
+    "3d_fighting": ["fixed_step", "frame_data", "hitboxes", "hurtboxes", "guard", "parry", "throws", "combos", "rollback_replay"],
+    "tactical_rpg": ["party", "roles", "contracts", "camp", "equipment", "turn_state"],
+    "mmo_rpg": ["settlements", "professions", "crafting", "caravans", "economy", "world_events"],
+    "survival": ["needs", "weather", "shelter", "hazards", "gathering", "durability"],
+    "racing_sim": ["tires", "grip", "braking", "aero", "damage", "telemetry"],
+    "action_adventure": ["traversal", "puzzles", "interaction", "combat", "discovery"],
+    "city_builder": ["population", "production", "logistics", "taxation", "diplomacy", "territory"],
+    "arena_sports": ["teams", "ratings", "seasons", "tournaments", "spectator", "replay"]
+  },
+  "rendering": {
+    "simulation_authority": true,
+    "fixed_step": true,
+    "render_interpolation": true,
+    "streaming": true,
+    "lod": true,
+    "occlusion": true,
+    "dynamic_resolution": true,
+    "replay": true
+  },
+  "asset_policy": {
+    "allow": ["original", "public_domain", "cc0", "compatible_open_source"],
+    "require_provenance": true,
+    "require_license": true,
+    "require_sha256": true,
+    "commercial_game_rips": false
+  }
+}
