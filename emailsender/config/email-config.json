@@ -11,10 +11,40 @@
     "usernameEnv": "EMAILSENDER_SMTP_USERNAME",
     "passwordEnv": "EMAILSENDER_SMTP_TOKEN"
   },
+  "relay": {
+    "enabled": true,
+    "profiles": [
+      {
+        "id": "proton",
+        "host": "smtp.protonmail.ch",
+        "port": 587,
+        "security": "starttls",
+        "authentication": "smtp-auth",
+        "authorizedSenderRequired": true
+      },
+      {
+        "id": "custom-authenticated-relay",
+        "hostEnv": "EMAILSENDER_RELAY_HOST",
+        "portEnv": "EMAILSENDER_RELAY_PORT",
+        "security": "starttls-or-tls",
+        "usernameEnv": "EMAILSENDER_RELAY_USERNAME",
+        "passwordEnv": "EMAILSENDER_RELAY_PASSWORD",
+        "authorizedSenderRequired": true
+      }
+    ],
+    "allowOpenRelay": false,
+    "allowFromSpoofing": false,
+    "allowHeaderIdentityHiding": false,
+    "privacyMode": {
+      "enabled": true,
+      "description": "Use an authorized relay or alias while minimizing application-side metadata; this is pseudonymous privacy, not anonymous or untraceable email."
+    }
+  },
   "defaults": {
     "subject": "Repository validation request",
     "messageHeader": "Games, OS, and Other topics",
     "dryRun": true,
-    "requireHumanApproval": true
+    "requireHumanApproval": true,
+    "requireAuthorizedRelay": true
   }
 }
