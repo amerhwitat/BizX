@@ -8,6 +8,17 @@ The cross-language Tycoon runtime is available in the Node.js, Java 17 and Pytho
 
 Purchases and payment settlement are configured for the primary Ethereum receiving address `0x0B4fF3fc6AE19fAF9A0d2628a646ABD9636B1162`. The repository never stores private keys. Real transfers, swaps, or exchanges remain non-custodial and require explicit user/wallet authorization.
 
+## Free world maps, audio and VFX
+
+`game-assets/` contains a researched free-asset catalog and machine-readable manifest. The replacement for generated artwork uses CC0/public-domain sources wherever possible, including Poly Haven for realistic PBR/HDRI/3D environments, Kenney/OpenGameArt for nostalgic maps and tiles, and CC0 sound/VFX collections for gameplay feedback. Final game-specific maps are assembled from licensed building blocks rather than copying copyrighted complete maps.
+
+- Catalog: `game-assets/FREE_ASSET_CATALOG.md`
+- Manifest: `game-assets/asset-manifest.json`
+- Realistic families: alpine, desert, Mediterranean, forest, tropical, coast, island, river valley, mountain, volcanic, snowy, grassland, farmland, industrial city, modern city and harbor.
+- Nostalgic families: ancient/ruins, fantasy, space colony and retro RPG, with minimap/cartography variants.
+- Audio layers: UI, footsteps, terrain, weather, commerce, machinery, combat and ambient world loops.
+- VFX layers: particles, impacts, fire, water, portals, beams, weather, environmental and retro effects.
+
 ## Source-code citation index
 
 | Area | Source |
@@ -17,6 +28,7 @@ Purchases and payment settlement are configured for the primary Ethereum receivi
 | Unreal Engine 5 C++ | [Unreal5/BizXUnreal/](Unreal5/BizXUnreal/) |
 | Unity 3D package/data | [Unity3D/](Unity3D/) |
 | Portable 3D assets | [3D/assets/](3D/assets/) |
+| Free game asset catalog | [game-assets/](game-assets/) |
 | Rendering architecture | [rendering/](rendering/) |
 | Multi-chain crypto | [crypto/](crypto/) |
 | Game/store/storyboards | [game-store/](game-store/) |
@@ -39,7 +51,7 @@ The starting menu includes Texas Hold’em Poker, Blackjack, a Classic Card Suit
 
 ## Artwork and game flow
 
-Original vector artwork is stored under `mobile/flutter/assets/art/`. Game flow and catalog metadata live in `game-store/storyboards/card-games-and-trex.json`. Card rendering is data-driven from a standard deck model.
+Original vector artwork is stored under `mobile/flutter/assets/art/`. External free world/audio/VFX sources are cataloged under `game-assets/`. Game flow and catalog metadata live in `game-store/storyboards/card-games-and-trex.json`. Card rendering is data-driven from a standard deck model.
 
 ## Saves, backups and wallets
 
