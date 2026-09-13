@@ -1,16 +1,11 @@
-"""Python-native adapters for the feature trees consolidated by BizX.
-
-These modules intentionally keep platform-specific engines (Unity, Unreal,
-OpenGL browsers, native sockets) behind small Python contracts. The unified
-runtime can therefore exercise the same feature model without requiring a
-second application entry point.
-"""
+"""Python-native adapters for BizX feature trees consolidated into one runtime."""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 import hashlib
+import ipaddress
 import json
-import math
+import socket
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -34,7 +29,40 @@ class NetworkService:
 
 
 class NetworkUnifiedService(NetworkService):
-    """Unified NetworkUnified-compatible message and routing facade."""
+    """NetworkUnified Python API: messages, scope classification and guarded checks."""
+
+    def __init__(self, allowlist: set[str] | None = None) -> None:
+        super().__init__()
+        self.allowlist = set(allowlist or ())
+
+    @staticmethod
+    def classify(target: str) -> str:
+        address = ipaddress.ip_address(target)
+        if address.is_private or address.is_loopback or address.is_link_local:
+            return "local/intranet"
+        return "public"
+
+    def authorize(self, target: str) -> bool:
+        return self.classify(target) != "public" or target in self.allowlist
+
+    @staticmethod
+    def interfaces() -> dict[str, Any]:
+        addresses: set[str] = set()
+        try:
+            addresses.update(info[4][0] for info in socket.getaddrinfo(socket.gethostname(), None))
+        except OSError:
+            pass
+        return {"hostname": socket.gethostname(), "addresses": sorted(addresses)}
+
+    def tcp_check(self, target: str, port: int, timeout: float = 1.0) -> dict[str, Any]:
+        if not self.authorize(target):
+            return {"target": target, "port": port, "reachable": False, "error": "public_target_not_allowlisted"}
+        timeout = min(max(float(timeout), 0.05), 3.0)
+        try:
+            with socket.create_connection((target, int(port)), timeout=timeout):
+                return {"target": target, "port": int(port), "reachable": True}
+        except OSError as exc:
+            return {"target": target, "port": int(port), "reachable": False, "error": type(exc).__name__}
 
     @staticmethod
     def encode_message(channel: str, payload: dict[str, Any]) -> bytes:
@@ -87,7 +115,7 @@ class Scene3D:
 
 
 class RenderingService:
-    """Renderer-independent capability model for the C++ rendering tree."""
+    """Renderer-independent capability model for rendering/AssetSource."""
 
     def __init__(self) -> None:
         self.backend = "python-software"
