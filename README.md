@@ -2,6 +2,14 @@
 
 BizX is the core business/application repository for the BizX/BizXtreme platform.
 
+## Web search tags
+
+**Core tags:** `bizx`, `business-simulation`, `game-development`, `rpg`, `strategy-game`, `open-world-game`, `tycoon-game`, `game-engine`, `cross-platform`, `python`, `nodejs`, `java`, `csharp`, `cpp`, `typescript`, `networking`, `multiplayer`, `crypto-wallet`, `blockchain`, `asset-browser`, `chess`, `strategy`, `unity`, `unreal-engine`, `webgl`, `vulkan`, `ai`, `npc-ai`, `procedural-generation`
+
+**Search phrases:** BizX game framework, business simulation game engine, cross-platform RPG strategy game, open-world business simulation, tycoon game engine, multiplayer game networking, crypto wallet game integration, cross-language game development, Unity and Unreal game systems, WebGL game rendering, AI NPC simulation, procedural game world, chess and strategy engine, open licensed game asset browser.
+
+See [`WEB_SEARCH_TAGS.md`](WEB_SEARCH_TAGS.md) for the maintained tag set and search-phrase metadata.
+
 ## Unified build and configuration automation
 
 The repository provides Windows CMD/PowerShell and POSIX shell entry points that discover application manifests and invoke the appropriate dependency manager/build system for each programming language.
@@ -29,7 +37,7 @@ The game framework includes a research-driven AAA systems layer based on public/
 
 `games/chess-strategy/` adds a common chess/strategy contract and native adapters across the language implementations. Chess support includes FEN/PGN, legal-move integration, UCI engine boundaries, clocks, puzzles, analysis, replay and variant-provider hooks. Strategy support includes deterministic turns, resources, production, trade, territory, diplomacy, technology, fog-of-war, AI policies and replay.
 
-The engine boundary is intentionally provider-neutral. Stockfish 19 is the current open-source research target, while python-chess and Lichess source projects provide public protocol/rules/UI references. External code remains separately licensed and is not copied into BizX. citeturn0search9turn0search4turn0search0
+The engine boundary is intentionally provider-neutral. Stockfish 19 is the current open-source research target, while python-chess and Lichess source projects provide public protocol/rules/UI references. External code remains separately licensed and is not copied into BizX.
 
 ### Network, cryptography and wallets
 
@@ -108,8 +116,6 @@ See `docs/FEATURE_CONVERSION_MAP.md`, `games/chess-strategy/contracts.json` and 
 | Unity 3D | `Unity3D/` |
 | Mobile Kotlin | `mobile/kotlin/` |
 | Mobile Flutter | `mobile/flutter/` |
-| Payment configuration | `games/payment-config/` |
-| Monetization | `games/monetization/` |
 | Node.js | `nodejs/` |
 | Java | `java/` |
 | Python | `python/` |
