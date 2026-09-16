@@ -1,0 +1,10 @@
+{
+  "$schema":"CHM-APP-INTEGRATION-1",
+  "application":"BizX",
+  "target":"Chimera II OS",
+  "aurora_app_id":"bizx",
+  "integration_points":["Aurora Wayland Glass","Koronos IPC","Chimera Network Center","Universal Execution API","Retro Center","Chimera Package Manager","shared settings/preferences"],
+  "capabilities":["business simulation","RPG","strategy","open world","tycoon","multiplayer","networking","AI/NPC systems","procedural generation","game economy","asset browser","chess/strategy","crypto-wallet integration"],
+  "language_adapters":["C","C++","C#","Python","Java","JavaScript","TypeScript","Kotlin","Swift","Go","Rust","Dart","PHP","Ruby"],
+  "policy":"Reuse existing source through language-specific adapters and shared APIs; do not duplicate incompatible implementations merely to claim support."
+}
