@@ -1,0 +1,6 @@
+binary/*.rom
+binary/*.bin
+binary/*.BIN
+*.rom
+*.bin
+*.BIN
