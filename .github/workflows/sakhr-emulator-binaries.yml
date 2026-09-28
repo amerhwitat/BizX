@@ -1,0 +1,35 @@
+name: Sakhr MSX emulator binaries
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "retro/tools/build-sakhr-emulators.sh"
+      - ".github/workflows/sakhr-emulator-binaries.yml"
+
+jobs:
+  build-emulators:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build emulator bundle
+        run: |
+          chmod +x retro/tools/build-sakhr-emulators.sh
+          retro/tools/build-sakhr-emulators.sh
+
+      - name: Verify emulator executables
+        run: |
+          test -x retro/dist/sakhr-emulators/mame
+          test -x retro/dist/sakhr-emulators/openmsx
+          retro/dist/sakhr-emulators/mame -version
+          retro/dist/sakhr-emulators/openmsx -version || true
+
+      - name: Upload emulator binaries
+        uses: actions/upload-artifact@v4
+        with:
+          name: bizx-sakhr-emulator-binaries-linux-x86_64
+          path: retro/dist/sakhr-emulators/
+          retention-days: 30
