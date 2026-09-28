@@ -1,0 +1,64 @@
+{
+  "schema_version": "2.0",
+  "project": "BizX Retro Editions",
+  "policy": "native-media-only",
+  "implemented": {
+    "commodore": {
+      "formats": [
+        "D64",
+        "PRG",
+        "T64",
+        "TAP"
+      ],
+      "targets": [
+        "C64",
+        "C128",
+        "VIC-20",
+        "Plus/4",
+        "PET"
+      ]
+    },
+    "atari8": {
+      "format": "ATR",
+      "image": "retro/media/atari8/BizX-Atari800.atr"
+    },
+    "apple2": {
+      "format": "DSK",
+      "image": "retro/media/apple2/BizX-AppleII.dsk"
+    },
+    "zxspectrum": {
+      "format": "TAP",
+      "image": "retro/media/zxspectrum/BizX-ZXSpectrum.tap"
+    },
+    "amstradcpc": {
+      "format": "DSK",
+      "image": "retro/media/amstradcpc/BizX-AmstradCPC.dsk"
+    },
+    "msx": {
+      "format": "DSK",
+      "image": "retro/media/msx/BizX-MSX.dsk"
+    },
+    "bbc": {
+      "format": "SSD",
+      "image": "retro/media/bbc/BizX-BBCMicro.ssd"
+    },
+    "trs80": {
+      "format": "DSK",
+      "image": "retro/media/trs80/BizX-TRS80.dsk"
+    },
+    "amiga": {
+      "format": "ADF",
+      "image": "retro/media/amiga/BizX-Amiga500.adf"
+    },
+    "atarist": {
+      "format": "ST",
+      "image": "retro/media/atarist/BizX-AtariST.st"
+    }
+  },
+  "verification": {
+    "structural": "implemented",
+    "emulator_execution": "pending per target",
+    "flawless_runtime_claim": false
+  },
+  "rom_policy": "No proprietary ROM images are redistributed."
+}
