@@ -1,0 +1,14 @@
+{
+  "description": "Target-specific source seeds for native builds",
+  "sources": {
+    "atari8": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"ATARI 8-BIT EDITION\"\\n30 GOTO 20",
+    "apple2": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"APPLE II EDITION\"\\n30 GOTO 20",
+    "zxspectrum": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"ZX SPECTRUM EDITION\"\\n30 GOTO 20",
+    "amstradcpc": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"AMSTRAD CPC EDITION\"\\n30 GOTO 20",
+    "msx": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"MSX EDITION\"\\n30 GOTO 20",
+    "bbc": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"BBC MICRO EDITION\"\\n30 GOTO 20",
+    "trs80": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"TRS-80 EDITION\"\\n30 GOTO 20",
+    "amiga": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"AMIGA EDITION\"\\n30 GOTO 20",
+    "atarist": "10 PRINT \"BIZX RETRO\"\\n20 PRINT \"ATARI ST EDITION\"\\n30 GOTO 20"
+  }
+}
