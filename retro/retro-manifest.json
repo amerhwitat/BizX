@@ -1,64 +1,89 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "3.0",
   "project": "BizX Retro Editions",
   "policy": "native-media-only",
-  "implemented": {
-    "commodore": {
-      "formats": [
-        "D64",
-        "PRG",
-        "T64",
-        "TAP"
-      ],
-      "targets": [
-        "C64",
-        "C128",
-        "VIC-20",
-        "Plus/4",
-        "PET"
-      ]
-    },
-    "atari8": {
-      "format": "ATR",
-      "image": "retro/media/atari8/BizX-Atari800.atr"
-    },
-    "apple2": {
-      "format": "DSK",
-      "image": "retro/media/apple2/BizX-AppleII.dsk"
-    },
-    "zxspectrum": {
-      "format": "TAP",
-      "image": "retro/media/zxspectrum/BizX-ZXSpectrum.tap"
-    },
-    "amstradcpc": {
-      "format": "DSK",
-      "image": "retro/media/amstradcpc/BizX-AmstradCPC.dsk"
-    },
-    "msx": {
-      "format": "DSK",
-      "image": "retro/media/msx/BizX-MSX.dsk"
-    },
-    "bbc": {
-      "format": "SSD",
-      "image": "retro/media/bbc/BizX-BBCMicro.ssd"
-    },
-    "trs80": {
-      "format": "DSK",
-      "image": "retro/media/trs80/BizX-TRS80.dsk"
-    },
-    "amiga": {
-      "format": "ADF",
-      "image": "retro/media/amiga/BizX-Amiga500.adf"
-    },
-    "atarist": {
-      "format": "ST",
-      "image": "retro/media/atarist/BizX-AtariST.st"
-    }
+  "targets": {
+    "commodore": [
+      "C64",
+      "C128",
+      "VIC-20",
+      "Plus/4",
+      "PET"
+    ],
+    "atari8": [
+      "Atari800"
+    ],
+    "apple2": [
+      "AppleII"
+    ],
+    "zxspectrum": [
+      "ZXSpectrum"
+    ],
+    "amstradcpc": [
+      "AmstradCPC"
+    ],
+    "msx": [
+      "MSX"
+    ],
+    "bbc": [
+      "BBCMicro"
+    ],
+    "trs80": [
+      "TRS80"
+    ],
+    "amiga": [
+      "Amiga500"
+    ],
+    "atarist": [
+      "AtariST"
+    ]
+  },
+  "formats": {
+    "C64": [
+      "D64",
+      "PRG",
+      "T64",
+      "TAP"
+    ],
+    "C128": [
+      "D71"
+    ],
+    "C1581": [
+      "D81"
+    ],
+    "Atari800": [
+      "ATR"
+    ],
+    "AppleII": [
+      "2MG"
+    ],
+    "ZXSpectrum": [
+      "DSK"
+    ],
+    "AmstradCPC": [
+      "DSK"
+    ],
+    "MSX": [
+      "DSK"
+    ],
+    "BBCMicro": [
+      "SSD"
+    ],
+    "TRS80": [
+      "DSK"
+    ],
+    "Amiga500": [
+      "ADF"
+    ],
+    "AtariST": [
+      "ST"
+    ]
   },
   "verification": {
-    "structural": "implemented",
+    "structural": "generated-and-hashed",
     "emulator_execution": "pending per target",
     "flawless_runtime_claim": false
   },
-  "rom_policy": "No proprietary ROM images are redistributed."
+  "rom_policy": "No proprietary ROM images are redistributed.",
+  "release_policy": "Only emulator-tested target-native binaries/images should be promoted to certified releases."
 }
