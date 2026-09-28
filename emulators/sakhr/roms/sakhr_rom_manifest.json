@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "binaries_committed": false,
+  "local_directory": "emulators/sakhr/roms/binary",
+  "roms": [
+    {
+      "machine": "AX-170",
+      "filename": "ax170arab.rom",
+      "size": 32768,
+      "crc32": "339cd1aa",
+      "sha1": "0287b2ec897b9196788cd9f10c99e1487d7adbbb",
+      "role": "Arabic firmware ROM",
+      "source": "https://download.file-hunter.com/System%20ROMs/RomDB%20SystemROMs%20OpenMSX/OpenMSX%20SystemRoms%20Unknown%20%5Bax170_arabic%20-%20ax170arab.rom%5D%20%5B4454%5D.rom"
+    },
+    {
+      "machine": "AX-170",
+      "filename": "ax170bios.rom",
+      "size": 32768,
+      "crc32": "bd95c436",
+      "sha1": "5e094fca95ab8e91873ee372a3f1239b9a48a48d",
+      "role": "Main BIOS",
+      "source": "https://download.file-hunter.com/System%20ROMs/RomDB%20SystemROMs%20OpenMSX/OpenMSX%20SystemRoms%20Unknown%20%5Bax170_basic-bios1%20-%20ax170bios.rom%5D%20%5B4574%5D.rom"
+    },
+    {
+      "machine": "AX-230",
+      "filename": "IC125.BIN",
+      "size": 131072,
+      "sha1": "0340707c5de2310dcf5e569b7db4c6a6a5590cb7",
+      "role": "Main + Arabic firmware ROM",
+      "source": "https://download.file-hunter.com/System%20ROMs/RomDB%20SystemROMs%20OpenMSX/OpenMSX%20SystemRoms%20Unknown%20%5BIC125%20-%20qxxca0259.ic125%5D%20%5B4455%5D.rom"
+    },
+    {
+      "machine": "AX-230",
+      "filename": "IC127.BIN",
+      "size": 1048576,
+      "sha1": "620a209bdfdb65a22380031fce654bd1df61def2",
+      "role": "Games ROM",
+      "source": "https://download.file-hunter.com/System%20ROMs/RomDB%20SystemROMs%20OpenMSX/OpenMSX%20SystemRoms%20Unknown%20%5BIC127%20-%20qxxca0270.ic127%5D%20%5B4579%5D.rom"
+    }
+  ]
+}
