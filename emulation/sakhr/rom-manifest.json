@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "platform": "MSX1",
+  "machines": {
+    "sakhr_ax170": {
+      "manufacturer": "Sakhr / Al Alamiah",
+      "year": 1986,
+      "roms": [
+        {"name":"ax170bios.rom","size":32768,"crc32":"bd95c436","redistribution":"not-included"},
+        {"name":"ax170arab.rom","size":32768,"crc32":"339cd1aa","redistribution":"not-included"}
+      ]
+    },
+    "sakhr_ax230": {
+      "manufacturer": "Sakhr / Al Alamiah",
+      "year": "1986-1993",
+      "roms": [
+        {"name":"IC125.BIN","sha1":"0340707c5de2310dcf5e569b7db4c6a6a5590cb7","redistribution":"not-included"},
+        {"name":"IC127.BIN","sha1":"620a209bdfdb65a22380031fce654bd1df61def2","redistribution":"not-included"}
+      ]
+    }
+  }
+}
