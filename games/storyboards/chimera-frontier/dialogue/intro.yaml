@@ -1,0 +1,3 @@
+dialogue:
+  - {id: first-signal, speaker: captain-aya, text_en: "There is a settlement beacon ahead. Their route table is failing.", text_ar: "هناك منارة مستوطنة أمامنا. جدول مساراتهم معطّل."}
+  - {id: engineer-warning, speaker: engineer-nadir, text_en: "We can restore the route, but the weather window is closing.", text_ar: "يمكننا استعادة المسار، لكن نافذة الطقس تضيق."}
