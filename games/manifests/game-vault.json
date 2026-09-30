@@ -1,0 +1,25 @@
+{
+  "schema":"bizx-game-vault-v1",
+  "policy":{"proprietary_content_forbidden":true,"blind_repository_mirroring_forbidden":true,"license_verification_required":true,"asset_license_verification_required":true,"sha256_required_for_packages":true},
+  "entries":[
+    {"id":"xonotic","name":"Xonotic","kind":"open-source-game","status":"CATALOGED","license":"GPL-3.0-or-later","source":"https://github.com/xonotic/xonotic","platforms":["linux","windows","macos"]},
+    {"id":"red-eclipse","name":"Red Eclipse","kind":"open-source-game","status":"CATALOGED","license":"SEE-UPSTREAM","source":"https://github.com/red-eclipse/base","platforms":["linux","windows","macos"]},
+    {"id":"veloren","name":"Veloren","kind":"open-source-game","status":"CATALOGED","license":"GPL-3.0","source":"https://github.com/veloren/veloren","platforms":["linux","windows","macos"]},
+    {"id":"0ad","name":"0 A.D.","kind":"open-source-game","status":"CATALOGED","license":"SEE-UPSTREAM","source":"https://github.com/0ad/0ad","platforms":["linux","windows","macos"]},
+    {"id":"unvanquished","name":"Unvanquished","kind":"open-source-game","status":"CATALOGED","license":"SEE-UPSTREAM","source":"https://github.com/Unvanquished/Unvanquished","platforms":["linux","windows","macos"]},
+    {"id":"openmw","name":"OpenMW","kind":"open-source-engine","status":"CATALOGED","license":"GPL-3.0-or-later","source":"https://github.com/OpenMW/openmw","platforms":["linux","windows","macos"]},
+    {"id":"openlara","name":"OpenLara","kind":"open-source-engine","status":"CATALOGED","license":"SEE-UPSTREAM","source":"https://github.com/XProger/OpenLara","platforms":["linux","windows","macos"]},
+    {"id":"super-tux-kart","name":"SuperTuxKart","kind":"open-source-game","status":"CATALOGED","license":"GPL-3.0-or-later","source":"https://github.com/supertuxkart/stk-code","platforms":["linux","windows","macos"]},
+    {"id":"flightgear","name":"FlightGear","kind":"open-source-simulator","status":"CATALOGED","license":"GPL-2.0-or-later","source":"https://github.com/FlightGear/flightgear","platforms":["linux","windows","macos"]},
+    {"id":"the-dark-mod","name":"The Dark Mod","kind":"open-source-game","status":"CATALOGED","license":"SEE-UPSTREAM","source":"https://github.com/TheDarkMod/main","platforms":["linux","windows","macos"]},
+    {"id":"armory3d","name":"Armory","kind":"engine","status":"CATALOGED","license":"zlib","source":"https://github.com/armory3d/armory","platforms":["linux","windows","macos"]},
+    {"id":"o3de","name":"Open 3D Engine","kind":"engine","status":"CATALOGED","license":"Apache-2.0","source":"https://github.com/o3de/o3de","platforms":["linux","windows","macos"]}
+  ],
+  "originals":[
+    {"id":"chimera-frontier","status":"PLANNED","engine":"bizx-shared-runtime"},
+    {"id":"chimera-arena","status":"PLANNED","engine":"bizx-shared-runtime"},
+    {"id":"chimera-rpg","status":"PLANNED","engine":"bizx-shared-runtime"},
+    {"id":"chimera-tactical","status":"PLANNED","engine":"bizx-shared-runtime"},
+    {"id":"chimera-world","status":"PLANNED","engine":"bizx-shared-runtime"}
+  ]
+}
