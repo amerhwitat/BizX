@@ -1,0 +1,10 @@
+characters:
+  - id: captain-aya
+    role: expedition_leader
+    traits: [curious, pragmatic, diplomatic]
+  - id: engineer-nadir
+    role: systems_engineer
+    traits: [inventive, cautious, analytical]
+  - id: envoy-lina
+    role: settlement_envoy
+    traits: [empathetic, strategic, observant]
