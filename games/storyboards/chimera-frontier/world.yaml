@@ -1,0 +1,8 @@
+world:
+  title: Chimera Frontier
+  structure: procedural_sector_graph
+  regions:
+    - {name: Aster Reach, biome: temperate}
+    - {name: Sirocco Belt, biome: arid}
+    - {name: Nacre Expanse, biome: oceanic}
+  systems: [resource_economy, weather_events, faction_relations, logistics, exploration]
