@@ -1,0 +1,27 @@
+name: BizX Game Vault
+on:
+  push: {paths: ["games/**", ".github/workflows/game-vault.yml"]}
+  pull_request: {paths: ["games/**", ".github/workflows/game-vault.yml"]}
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with: {python-version: "3.12"}
+      - run: python3 games/tools/validate_game_vault.py
+      - run: python3 games/tools/build_game.py --plan
+      - run: |
+          mkdir -p build/game-vault
+          cp games/manifests/game-vault.json games/manifests/game-builds.json build/game-vault/
+          sha256sum games/manifests/*.json > build/game-vault/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with: {name: bizx-game-vault-manifests, path: build/game-vault, retention-days: 30}
+      - uses: actions/attest@v4
+        with: {subject-path: build/game-vault/*}
