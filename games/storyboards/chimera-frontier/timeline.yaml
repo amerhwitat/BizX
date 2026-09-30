@@ -1,0 +1,5 @@
+timeline:
+  - {id: frontier_departure, order: 1, event: first_jump}
+  - {id: first_contact, order: 2, event: settlement_signal}
+  - {id: broken_route, order: 3, event: logistics_crisis}
+  - {id: open_frontier, order: 4, event: regional_network_unlock}
