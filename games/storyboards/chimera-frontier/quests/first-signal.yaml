@@ -1,0 +1,9 @@
+quest:
+  id: first-signal
+  title_en: First Signal
+  title_ar: الإشارة الأولى
+  stages:
+    - {id: survey, objective: survey_sector}
+    - {id: logistics, objective: restore_supply_route}
+    - {id: diplomacy, objective: negotiate_docking}
+  rewards: [expedition_reputation, route_access]
