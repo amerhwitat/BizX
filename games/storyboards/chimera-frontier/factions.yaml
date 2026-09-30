@@ -1,0 +1,4 @@
+factions:
+  - {id: frontier_cooperative, disposition: neutral, goals: [trade, safety, shared_infrastructure]}
+  - {id: survey_union, disposition: independent, goals: [research, mapping, ecological_stewardship]}
+  - {id: free_harbor, disposition: competitive, goals: [commerce, autonomy, regional_influence]}
