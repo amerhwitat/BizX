@@ -1,4 +1,4 @@
-import { MODULES, UnifiedBizXRuntime } from './unified-runtime.js';
+import { MODULES, UnifiedBizXRuntime } from '../src/unified-runtime.js';
 
 describe('BizX web runtime', () => {
   test('exposes all feature families', () => {
