@@ -30,7 +30,7 @@ test('event session transitions are observable', () => {
 });
 
 test('TCP probe works against a local IPv4 fixture', async () => {
-  const server=net.createServer(socket=>socket.end('ok')).listen(0,'127.0.0.1'); await new Promise(r=>server.once('listening',r));
+  const server=net.createServer(socket=>{ socket.on('error',()=>{}); socket.end('ok'); }).listen(0,'127.0.0.1'); await new Promise(r=>server.once('listening',r));
   const port=server.address().port; const finding=await probeTcp({ip:'127.0.0.1'},port,{config,timeoutMs:1000}); server.close(); assert.equal(finding.state,'open');
 });
 
