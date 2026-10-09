@@ -1,6 +1,7 @@
 package com.amerhwitat.bizx.mobile
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.media.AudioAttributes
@@ -42,7 +43,11 @@ data class MediaCapabilities(val microphone:Boolean,val speaker:Boolean,val came
 class PcmVoiceEngine {
     private var recorder:AudioRecord?=null
     private var player:AudioTrack?=null
-    fun start(sampleRate:Int=48000) {
+    @SuppressLint("MissingPermission")
+    fun start(context:Context, sampleRate:Int=48000) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            throw SecurityException("RECORD_AUDIO permission is required before starting voice capture")
+        }
         val min=AudioRecord.getMinBufferSize(sampleRate,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT)
         recorder=AudioRecord(MediaRecorder.AudioSource.VOICE_COMMUNICATION,sampleRate,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT,min)
         player=AudioTrack.Builder().setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION).setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build()).setAudioFormat(AudioFormat.Builder().setSampleRate(sampleRate).setEncoding(AudioFormat.ENCODING_PCM_16BIT).setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build()).setBufferSizeInBytes(min).build()
