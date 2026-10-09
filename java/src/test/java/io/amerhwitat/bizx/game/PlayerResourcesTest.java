@@ -14,7 +14,12 @@ class PlayerResourcesTest {
         p.consumeAmmo(30);
         p.useMedicalKit();
         assertNull(p.purchasePrompt(), "reserve ammo prevents an ammo-depleted prompt");
-        p.consumeAmmo(120);
+        for (int i = 0; i < 4; i++) {
+            p.reload();
+            p.consumeAmmo(30);
+        }
+        assertEquals(0, p.ammo());
+        assertEquals(0, p.reserveAmmo());
         assertEquals("ammo", p.purchasePrompt().kind());
         PlayerResources.Checkpoint checkpoint = p.saveCheckpoint();
         assertEquals(40, checkpoint.health());
