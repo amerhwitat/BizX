@@ -278,6 +278,10 @@ class MobileState:
     platform: str = "desktop"
 
 
+# Keep public module imports aligned with the compatibility-tested service contracts.
+from .crypto import CryptoService
+from .network import NetworkService
+
 __all__ = [
     "AssetBrowserService", "AssetRecord", "CryptoService", "EmailService", "GameAssetService",
     "GameLauncherService", "GameStoreService", "InternetScanner", "MobileState", "NetworkService",
