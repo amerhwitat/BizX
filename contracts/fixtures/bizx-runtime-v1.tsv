@@ -1,0 +1,6 @@
+# Shared BizX runtime v1 conformance vectors. UTF-8 TSV: case<TAB>input<TAB>expected
+sha256	abc	ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad
+startGame-null	~	default
+startGame-blank	   	default
+startGame-custom	story	story
+features	~	game,NetworkUnified,launcher,InternetScanner,AssetBrowser,crypto,web,3D,game-assets,game-store,network,rendering,scripts
