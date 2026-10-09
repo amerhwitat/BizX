@@ -278,8 +278,9 @@ class MobileState:
     platform: str = "desktop"
 
 
-# Keep the unified runtime and public module import on the tested safe crypto contract.
+# Keep public module imports aligned with the compatibility-tested service contracts.
 from .crypto import CryptoService
+from .network import NetworkService
 
 __all__ = [
     "AssetBrowserService", "AssetRecord", "CryptoService", "EmailService", "GameAssetService",
