@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { MODULES, UnifiedBizXRuntime } from './unified-runtime.js';
+import { MODULES, UnifiedBizXRuntime } from '../src/unified-runtime.js';
 
 test('exposes all feature families in stable order', () => {
   const runtime = new UnifiedBizXRuntime();
