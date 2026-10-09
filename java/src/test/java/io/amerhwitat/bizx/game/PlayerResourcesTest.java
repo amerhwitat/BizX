@@ -12,8 +12,10 @@ class PlayerResourcesTest {
         p.takeDamage(100);
         assertEquals("health", p.purchasePrompt().kind());
         p.consumeAmmo(30);
+        assertNull(p.purchasePrompt(), "reserve ammo means the ammo prompt should not appear yet");
+        p.consumeAmmo(120);
         assertEquals("ammo", p.purchasePrompt().kind());
-        PlayerCheckpoint checkpoint = p.saveCheckpoint();
+        PlayerResources.Checkpoint checkpoint = p.saveCheckpoint();
         assertEquals(0, checkpoint.health());
         assertEquals(0, checkpoint.ammo());
         assertTrue(p.resumeFromCheckpoint(checkpoint));
