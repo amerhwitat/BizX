@@ -278,6 +278,9 @@ class MobileState:
     platform: str = "desktop"
 
 
+# Keep the unified runtime and public module import on the tested safe crypto contract.
+from .crypto import CryptoService
+
 __all__ = [
     "AssetBrowserService", "AssetRecord", "CryptoService", "EmailService", "GameAssetService",
     "GameLauncherService", "GameStoreService", "InternetScanner", "MobileState", "NetworkService",
