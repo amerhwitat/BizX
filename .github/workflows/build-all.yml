@@ -9,12 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
       - name: Build all
         run: bash ./build.sh
   windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
       - name: Build all
         shell: pwsh
         run: ./build.cmd
@@ -22,5 +24,6 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
       - name: Build all
         run: bash ./build.sh
