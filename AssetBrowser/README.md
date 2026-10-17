@@ -19,3 +19,10 @@ Start with `scripts/run.bat`, `scripts/run.ps1`, or `scripts/run.sh`, then open 
 ## Configuration
 
 `config/providers.json` contains provider endpoints and allowed download hosts. `ASSET_BROWSER_PORT` defaults to `8790`; `ASSET_BROWSER_DIR` can select the asset workspace.
+
+
+## Browser GUI and local API
+
+The shared browser interface is published at [BizX / BizXtreme Asset Browser](https://amerhwitat.github.io/apps/bizx-asset-browser/index.html). Run `python3 AssetBrowser/python/app.py` to start the local service (default port 8790). The GUI supports Openverse/Poly Haven/Kenney search, source/license review, installed manifest inspection and confirmed imports. It does not download files from GitHub Pages; imports are performed by the local service after confirmation.
+
+The service uses the exact-origin `ASSET_BROWSER_CORS_ORIGINS` allowlist. Defaults allow local development origins only. To opt in to the published portfolio GUI, set `ASSET_BROWSER_CORS_ORIGINS=https://amerhwitat.github.io`. Do not use wildcard origins. The API validates provider download hosts and file extensions before saving imports; always review license terms before shipping assets.
