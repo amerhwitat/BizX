@@ -4,7 +4,9 @@
     <TargetFrameworks>net48;net6.0-windows</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
+    <LangVersion>10.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AssemblyName>BizX.Desktop</AssemblyName>
     <RootNamespace>BizX.Desktop</RootNamespace>
     <Platforms>x64</Platforms>

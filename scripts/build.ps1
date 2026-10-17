@@ -12,16 +12,26 @@ function Invoke-Step([string]$Name,[string]$Command,[string[]]$Arguments=@(),[st
 }
 if($Mode -ne 'no-install'){ & (Join-Path $PSScriptRoot 'install-deps.ps1') }
 $files = Get-ChildItem -Path $Root -Recurse -File | Where-Object { $_.FullName -notmatch '\\(\.git|node_modules|target|build|bin|obj|\.venv)\\' }
-$dirs = $files | Where-Object { $_.Name -in @('package.json','pyproject.toml','Cargo.toml','go.mod','pom.xml','build.gradle','build.gradle.kts','CMakeLists.txt') } | Select-Object -ExpandProperty DirectoryName -Unique
+$dirs = $files | Where-Object { $_.Name -in @('package.json','pyproject.toml','Cargo.toml','go.mod','pom.xml','build.gradle','build.gradle.kts','CMakeLists.txt','pubspec.yaml') } | Select-Object -ExpandProperty DirectoryName -Unique
 foreach($d in $dirs){
   if(Test-Path (Join-Path $d 'package.json')) { if(Test-Path (Join-Path $d 'package-lock.json')){Invoke-Step 'npm ci' 'npm' @('ci') $d}else{Invoke-Step 'npm install' 'npm' @('install') $d}; Invoke-Step 'npm build' 'npm' @('run','build','--if-present') $d; Invoke-Step 'npm test' 'npm' @('test','--if-present') $d }
-  if(Test-Path (Join-Path $d 'pyproject.toml')) { Invoke-Step 'pip install' 'python' @('-m','pip','install','-e','.') $d; if(Get-Command pytest -ErrorAction SilentlyContinue){ Invoke-Step 'pytest' 'python' @('-m','pytest') $d } }
+  if(Test-Path (Join-Path $d 'pyproject.toml')) { Invoke-Step 'pip install' 'python' @('-m','pip','install','-e','.') $d; if((Test-Path (Join-Path $d 'tests')) -or (Test-Path (Join-Path $d 'Tests'))) { Invoke-Step 'install pytest' 'python' @('-m','pip','install','pytest') $d; Invoke-Step 'pytest' 'python' @('-m','pytest') $d } }
   if(Test-Path (Join-Path $d 'requirements.txt')) { Invoke-Step 'pip requirements' 'python' @('-m','pip','install','-r','requirements.txt') $d }
   if(Test-Path (Join-Path $d 'Cargo.toml')) { Invoke-Step 'cargo fetch' 'cargo' @('fetch') $d; Invoke-Step 'cargo build' 'cargo' @('build','--workspace') $d; Invoke-Step 'cargo test' 'cargo' @('test','--workspace') $d }
+  if(Test-Path (Join-Path $d 'pubspec.yaml')) { Invoke-Step 'Dart dependencies' 'dart' @('pub','get') $d; if(Test-Path (Join-Path $d 'test')) { Invoke-Step 'Dart tests' 'dart' @('test') $d } }
   if(Test-Path (Join-Path $d 'go.mod')) { Invoke-Step 'go mod download' 'go' @('mod','download') $d; Invoke-Step 'go build' 'go' @('build','./...') $d; Invoke-Step 'go test' 'go' @('test','./...') $d }
   if(Test-Path (Join-Path $d 'pom.xml')) { $mvn = if(Test-Path (Join-Path $d 'mvnw.cmd')){Join-Path $d 'mvnw.cmd'}else{'mvn'}; Invoke-Step 'Maven package' $mvn @('-B','test','package') $d }
   if((Test-Path (Join-Path $d 'build.gradle')) -or (Test-Path (Join-Path $d 'build.gradle.kts'))) { $g = if(Test-Path (Join-Path $d 'gradlew.bat')){Join-Path $d 'gradlew.bat'}else{'gradle'}; Invoke-Step 'Gradle build' $g @('build') $d }
   if(Test-Path (Join-Path $d 'CMakeLists.txt')) { $b=Join-Path $d 'build'; Invoke-Step 'CMake configure' 'cmake' @('-S',$d,'-B',$b) $Root; Invoke-Step 'CMake build' 'cmake' @('--build',$b,'--parallel') $Root }
+}
+$vcppSolution = Join-Path $Root 'desktop\\vcpp\\BizXDesktop.sln'
+if (Test-Path $vcppSolution) {
+  $msbuild = Get-Command msbuild.exe -ErrorAction SilentlyContinue
+  if ($msbuild) {
+    Invoke-Step 'Visual C++ solution' $msbuild.Source @($vcppSolution,'/m','/p:Configuration=Debug','/p:Platform=x64') $Root
+  } else {
+    throw 'Visual C++ solution exists but MSBuild is unavailable on this Windows runner.'
+  }
 }
 Get-ChildItem $LogDir | Out-Null
 "Build orchestration complete: $(Get-Date -Format o)" | Tee-Object -FilePath $Log -Append

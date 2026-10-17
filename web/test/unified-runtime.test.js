@@ -1,14 +1,16 @@
-import { MODULES, UnifiedBizXRuntime } from './unified-runtime.js';
+import test from "node:test";
+import assert from "node:assert/strict";
+import { MODULES, UnifiedBizXRuntime } from "../src/unified-runtime.js";
 
-describe('BizX web runtime', () => {
-  test('exposes all feature families', () => {
-    const r = new UnifiedBizXRuntime();
-    expect(r.health().modules).toEqual(MODULES);
-  });
-  test('projects origin', () => {
-    expect(new UnifiedBizXRuntime().project({x:0,y:0,z:0})).toEqual({x:400,y:300,z:5});
-  });
-  test('crypto intent is unsigned', () => {
-    expect(new UnifiedBizXRuntime().cryptoIntent('provider','TEST',1)).toContain('UNSIGNED');
-  });
+test("web runtime exposes all feature families", () => {
+  const runtime = new UnifiedBizXRuntime();
+  assert.deepEqual(runtime.health().modules, MODULES);
+});
+
+test("projects the origin into the viewport", () => {
+  assert.deepEqual(new UnifiedBizXRuntime().project({ x: 0, y: 0, z: 0 }), { x: 400, y: 300, z: 5 });
+});
+
+test("crypto intent is unsigned", () => {
+  assert.match(new UnifiedBizXRuntime().cryptoIntent("provider", "TEST", 1), /UNSIGNED$/);
 });
