@@ -24,5 +24,14 @@ foreach($d in $dirs){
   if((Test-Path (Join-Path $d 'build.gradle')) -or (Test-Path (Join-Path $d 'build.gradle.kts'))) { $g = if(Test-Path (Join-Path $d 'gradlew.bat')){Join-Path $d 'gradlew.bat'}else{'gradle'}; Invoke-Step 'Gradle build' $g @('build') $d }
   if(Test-Path (Join-Path $d 'CMakeLists.txt')) { $b=Join-Path $d 'build'; Invoke-Step 'CMake configure' 'cmake' @('-S',$d,'-B',$b) $Root; Invoke-Step 'CMake build' 'cmake' @('--build',$b,'--parallel') $Root }
 }
+$vcppSolution = Join-Path $Root 'desktop\\vcpp\\BizXDesktop.sln'
+if (Test-Path $vcppSolution) {
+  $msbuild = Get-Command msbuild.exe -ErrorAction SilentlyContinue
+  if ($msbuild) {
+    Invoke-Step 'Visual C++ solution' $msbuild.Source @($vcppSolution,'/m','/p:Configuration=Debug','/p:Platform=x64') $Root
+  } else {
+    throw 'Visual C++ solution exists but MSBuild is unavailable on this Windows runner.'
+  }
+}
 Get-ChildItem $LogDir | Out-Null
 "Build orchestration complete: $(Get-Date -Format o)" | Tee-Object -FilePath $Log -Append
