@@ -2,7 +2,7 @@
 import hashlib,http.server,json,mimetypes,os,pathlib,socket,urllib.parse,urllib.request
 from urllib.parse import urlparse
 ROOT=pathlib.Path(__file__).resolve().parents[1]; WEB=ROOT/'web'; CFG=ROOT/'config/providers.json'
-PORT=int(os.getenv('ASSET_BROWSER_PORT','8790')); STORE=pathlib.Path(os.getenv('ASSET_BROWSER_DIR',str(ROOT/'game_assets'))); STORE.mkdir(parents=True,exist_ok=True)
+ALLOWED_ORIGINS={x.strip() for x in os.getenv('ASSET_BROWSER_CORS_ORIGINS','http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173').split(',') if x.strip()}; PORT=int(os.getenv('ASSET_BROWSER_PORT','8790')); STORE=pathlib.Path(os.getenv('ASSET_BROWSER_DIR',str(ROOT/'game_assets'))); STORE.mkdir(parents=True,exist_ok=True)
 MANIFEST=STORE/'manifest.json'; PROVIDERS=json.loads(CFG.read_text()); UA='BizX-AssetBrowser/1.0 (+in-game asset browser)'
 SAFE_EXT={'.png','.jpg','.jpeg','.webp','.gif','.wav','.ogg','.mp3','.flac','.glb','.gltf','.obj','.mtl','.hdr','.exr','.ttf','.otf','.json','.txt','.zip'}
 def get(url):
@@ -26,6 +26,7 @@ def search(provider,q,kind='image'):
  if provider=='polyhaven':
   data=json.loads(get(PROVIDERS['polyhaven']['assets'])); ql=q.lower(); out=[]
   for k,x in data.items():
+   if kind in {'hdri','texture','model'} and x.get('type') != {'hdri':0,'texture':1,'model':2}[kind]: continue
    if not ql or ql in (k+' '+str(x)).lower():
     files=json.loads(get(PROVIDERS['polyhaven']['files']+urllib.parse.quote(k,safe=''))); u=first_url(files)
     out.append({'id':k,'title':x.get('name',k),'provider':'Poly Haven','type':{0:'hdri',1:'texture',2:'model'}.get(x.get('type'),'asset'),'license':'CC0','license_url':'https://polyhaven.com/license','source':'https://polyhaven.com/a/'+k,'preview':x.get('thumbnail_url'),'download':u})
@@ -35,8 +36,15 @@ def search(provider,q,kind='image'):
  return []
 class H(http.server.BaseHTTPRequestHandler):
  def sendj(self,o,code=200):
-  b=json.dumps(o).encode();self.send_response(code);self.send_header('Content-Type','application/json');self.send_header('Access-Control-Allow-Origin','*');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b)
- def do_OPTIONS(self):self.send_response(204);self.send_header('Access-Control-Allow-Origin','*');self.send_header('Access-Control-Allow-Methods','GET,POST,OPTIONS');self.send_header('Access-Control-Allow-Headers','Content-Type');self.end_headers()
+  b=json.dumps(o).encode();self.send_response(code);self.send_header('Content-Type','application/json');origin=self.headers.get('Origin')
+  if origin and origin in ALLOWED_ORIGINS:self.send_header('Access-Control-Allow-Origin',origin);self.send_header('Vary','Origin')
+  self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b)
+ def do_OPTIONS(self):
+  origin=self.headers.get('Origin')
+  if origin and origin not in ALLOWED_ORIGINS:self.send_response(403);self.end_headers();return
+  self.send_response(204)
+  if origin:self.send_header('Access-Control-Allow-Origin',origin);self.send_header('Vary','Origin')
+  self.send_header('Access-Control-Allow-Methods','GET,POST,OPTIONS');self.send_header('Access-Control-Allow-Headers','Content-Type');self.end_headers()
  def do_GET(self):
   p=urllib.parse.urlparse(self.path)
   if p.path in ('/','/index.html'):return self.serve(WEB/'index.html','text/html')
